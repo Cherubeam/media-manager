@@ -7,7 +7,7 @@ const express = require('express')
 const hbs = require('hbs')
 
 // Require own modules
-const Movie = require('../movie')
+const Movie = require('./movie')
 const tmdb = require('../tmdb/tmdb')
 
 // Setup express and publicPath

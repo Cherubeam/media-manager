@@ -67,7 +67,6 @@ const getMovieDetails = new Promise((resolve, reject) => {
                 statusMessage: response.body.status_message
             }, undefined, 2)))
         } else if (response.statusCode === 200) {
-            console.log(body)
             resolve({
                 tmdbID: body.id,
                 imdbID: body.imdb_id,
