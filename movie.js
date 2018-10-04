@@ -73,3 +73,5 @@ class Movie {
 
     set storageLocations(locations) { }
 }
+
+module.exports = Movie

@@ -7,6 +7,7 @@ const express = require('express')
 const hbs = require('hbs')
 
 // Require own modules
+const Movie = require('../movie')
 const tmdb = require('../tmdb/tmdb')
 
 // Setup express and publicPath
@@ -34,14 +35,22 @@ app.use((req, res, next) => {
 // Static page
 app.use(express.static(publicPath))
 
-// Test an API call
-tmdb.getMovieDetails((errorMessage, results) => {
-    if (errorMessage) {
-        console.log(errorMessage)
-    } else {
-        console.log(results)
-    }
+let batmanMovie 
+
+// Test an API call | Promise
+tmdb.getMovieDetails.then((result) => {
+    batmanMovie = new Movie(undefined, undefined, result.title, result.releaseDate, undefined, undefined, undefined, result.poster, result.description, result.rating, 222, 'google.de', 'Blu-ray')
+
+}).catch((error) => {
+    console.log(error)
 })
+
+
+setTimeout(() => {
+    console.log('--- Data ---')
+    console.log(batmanMovie)
+}, 2000);
+
 // Test end
 
 // Routes
