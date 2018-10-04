@@ -1,0 +1,29 @@
+{
+  "name": "media-manager",
+  "version": "1.0.0",
+  "description": "A manager for all the media and entertaining stuff in your home as movies, series, music, video games and so on.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "test": "mocha **/*.test.js",
+    "test-watch": "nodemon --exec \"npm test\"",
+    "test-jest": "jest --verbose --coverage --watchAll"
+  },
+  "engines": {
+    "node": "9.5.0"
+  },
+  "author": "Marco Braun",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.3",
+    "hbs": "^4.0.1",
+    "request": "^2.88.0",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "jest": "^23.6.0",
+    "live-server": "^1.2.0",
+    "mocha": "^5.2.0",
+    "supertest": "^3.3.0"
+  }
+}
