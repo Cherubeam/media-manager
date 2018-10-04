@@ -67,11 +67,17 @@ const getMovieDetails = new Promise((resolve, reject) => {
                 statusMessage: response.body.status_message
             }, undefined, 2)))
         } else if (response.statusCode === 200) {
+            console.log(body)
             resolve({
-                title: body.title,
+                tmdbID: body.id,
+                imdbID: body.imdb_id,
+                originalTitle: body.original_title,
+                germanTitle: body.title,
                 releaseDate: body.release_date,
                 description: body.overview,
-                rating: body.vote_average,
+                runtime: body.runtime,
+                tmdbVoteAverage: body.vote_average,
+                tmdbVoteCount: body.vote_count,
                 poster: body.poster_path
             })
         }

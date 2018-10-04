@@ -35,12 +35,11 @@ app.use((req, res, next) => {
 // Static page
 app.use(express.static(publicPath))
 
+// Test an API call | Promise
 let batmanMovie 
 
-// Test an API call | Promise
 tmdb.getMovieDetails.then((result) => {
-    batmanMovie = new Movie(undefined, undefined, result.title, result.releaseDate, undefined, undefined, undefined, result.poster, result.description, result.rating, 222, 'google.de', 'Blu-ray')
-
+    batmanMovie = new Movie(undefined, result.tmdbID, result.imdbID, result.originalTitle, result.germanTitle, result.releaseDate, undefined, undefined, undefined, result.poster, result.description, result.runtime, result.tmdbVoteAverage, result.tmdbVoteCount, undefined, undefined, 'Blu-ray')
 }).catch((error) => {
     console.log(error)
 })
@@ -49,6 +48,8 @@ tmdb.getMovieDetails.then((result) => {
 setTimeout(() => {
     console.log('--- Data ---')
     console.log(batmanMovie)
+
+    batmanMovie.createdAt = '2018'
 }, 2000);
 
 // Test end
