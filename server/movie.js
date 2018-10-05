@@ -2,7 +2,7 @@ const uuidv4 = require('uuid/v4')
 const moment = require('moment')
 
 class Movie {
-    constructor(id, tmdbID, imdbID, originalTitle, germanTitle, releaseDate, director, writers, actors, cover, description, runtime, tmdbVoteAverage, tmdbVoteCount, imdbRating, trailerUrls, storageLocations) {
+    constructor(id, tmdbID, imdbID, originalTitle, germanTitle, releaseDate, director, writers, actors, description, runtime, tmdbVoteAverage, tmdbVoteCount, imdbRating, poster, videos, genres, keywords, storageLocations) {
         const timestamp = moment().format()
         this._createdAt = timestamp
         this._updatedAt = timestamp 
@@ -11,18 +11,21 @@ class Movie {
         this._imdbID = imdbID
         this._originalTitle = originalTitle
         this._germanTitle = germanTitle
-        this._releaseDate = releaseDate
+        this._releaseDate = moment(releaseDate, 'YYYY-MM-DD').format('YYYY')
         this._director = director
         this._writers = writers || []
         this._actors = actors || []
-        this._cover = cover
         this._description = description
-        this._runtime = runtime
+        this._runtime = `${Math.floor(runtime / 60)}h ${runtime % 60}m`
         this._tmdbVoteAverage = tmdbVoteAverage
         this._tmdbVoteCount = tmdbVoteCount
         this._imdbRating = imdbRating
-        this._trailerUrls = trailerUrls || []
-        this._storageLocations = storageLocations || []
+        this._poster = poster
+        this._videos = videos || []
+        this._genres = genres || []
+        this._keywords = keywords || []
+        this._storageLocations = [storageLocations] || []
+        this._watched = false
     }
 
     get id() {
@@ -33,8 +36,8 @@ class Movie {
         return this._germanTitle
     }
 
-    get publication() {
-        return this._publication
+    get releaseDate() {
+        return this._releaseDate
     }
 
     get director() {
@@ -43,6 +46,26 @@ class Movie {
 
     get writers() {
         return this._writers
+    }
+
+    get description() {
+        return this._description
+    }
+
+    get poster() {
+        return this._poster
+    }
+
+    get videos() {
+        return this._videos
+    }
+
+    get genres() {
+        return this._genres
+    }
+
+    get keywords() {
+        return this._keywords
     }
 
     get allTitles() {
@@ -56,7 +79,7 @@ class Movie {
         return {
             id: this._id,
             germanTitle: this._germanTitle,
-            releaseDate: this._publication,
+            releaseDate: this._releaseDate,
             actors: this._actors,
             description: this._description
         }
@@ -76,7 +99,13 @@ class Movie {
         this._imdbRating = rating
     }
 
-    set storageLocations(locations) { }
+    set storageLocations(locations) {
+        this.storageLocations.push(locations)
+    }
+
+    set watched(boolean) {
+        this._watched = boolean
+    }
 }
 
 module.exports = Movie

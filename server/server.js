@@ -16,7 +16,8 @@ const port = process.env.PORT || 3000
 const publicPath = path.join(__dirname, '../public')
 
 // Views
-hbs.registerPartials(__dirname + '../views/partials')
+hbs.registerPartials(publicPath + '/views/partials')
+app.set('views', path.join(__dirname, '../public/views'))
 app.set('view engine', 'hbs')
 
 // Log access to pages
@@ -24,7 +25,7 @@ app.use((req, res, next) => {
     const now = new Date().toString()
     const log = `${now}: ${req.method} ${req.url}`
 
-    fs.appendFile('server.log', log + '\n', (error) => {
+    fs.appendFile('server.log', log + '\n', error => {
         if (error) {
             console.log('Unable to append to server.log')
         }
@@ -36,31 +37,33 @@ app.use((req, res, next) => {
 app.use(express.static(publicPath))
 
 // Test an API call | Promise
-let batmanMovie 
+let movie 
 
 tmdb.getMovieDetails.then((result) => {
-    batmanMovie = new Movie(undefined, result.tmdbID, result.imdbID, result.originalTitle, result.germanTitle, result.releaseDate, undefined, undefined, undefined, result.poster, result.description, result.runtime, result.tmdbVoteAverage, result.tmdbVoteCount, undefined, undefined, 'Blu-ray')
+    return movie = new Movie(undefined, result.tmdbID, result.imdbID, result.originalTitle, result.germanTitle, result.releaseDate, undefined, undefined, undefined, result.description, result.runtime, result.tmdbVoteAverage, result.tmdbVoteCount, undefined, result.poster, result.videos, result.genres, result.keywords, 'Blu-ray',)
+}).then(() => {
+    app.get('/', (req, res) => {
+        res.render('index.hbs', {
+            movieTitle: movie.germanTitle,
+            moviePoster: `https://image.tmdb.org/t/p/w342${movie.poster}`,
+            movieRelease: movie.releaseDate,
+            movieDescription: movie.description 
+            //movieGenres: movie.genres,
+            //movieKeywords: movie.keywords
+        })
+    })
 }).catch((error) => {
     console.log(error)
 })
 
-
 setTimeout(() => {
     console.log('--- Data ---')
-    console.log(batmanMovie)
-
-    batmanMovie.createdAt = '2018'
+    console.log(movie)
 }, 2000);
 
 // Test end
 
 // Routes
-app.get('/', (req, res) => {
-    res.render('index.hbs', {
-        movieTitle: 'Batman'
-    })
-})
-
 app.get('/movies', (req, res) => {
     res.status(200).send('Movies Overview Page')
 })

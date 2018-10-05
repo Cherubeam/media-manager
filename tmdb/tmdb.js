@@ -5,48 +5,11 @@ const secrets = require('../secrets/secrets')
 let movieId = 272
 let language = 'de'
 
-// GET a movie by ID | Solution with callback
-// const getMovieDetails = (callback) => {
-//     request({
-//         method: 'GET',
-//         url: `https://api.themoviedb.org/3/movie/${movieId}?api_key=${secrets.apiKeys.tmdbKey}&language=${language}`,
-//         json: true
-//     }, (error, response, body) => {
-//         if (error) {
-//             callback({
-//                 errorCode: error.code,
-//                 host: error.host,
-//                 port: error.port,
-//                 message: `Error: ${error.code} | Host: ${error.host} | Port: ${error.port} -> Please check the API-URL.`
-//             })
-//         } else if (response.statusCode === 401) {
-//             callback({
-//                 statusCode: response.statusCode,
-//                 statusMessage: response.body.status_message
-//             })
-//         } else if (response.statusCode === 404) {
-//             callback({
-//                 statusCode: response.statusCode,
-//                 statusMessage: response.body.status_message
-//             })
-//         } else if (response.statusCode === 200) {
-//             callback(undefined, {
-//                 title: body.title,
-//                 releaseDate: body.release_date,
-//                 description: body.overview,
-//                 rating: body.vote_average,
-//                 poster: body.poster_path
-//             })
-//         }
-//     })
-// }
-
-
 // GET a movie ID | Solution with Promise
 const getMovieDetails = new Promise((resolve, reject) => {
     request({
         method: 'GET',
-        url: `https://api.themoviedb.org/3/movie/${movieId}?api_key=${secrets.apiKeys.tmdbKey}&language=${language}`,
+        url: `https://api.themoviedb.org/3/movie/${movieId}?append_to_response=videos,images,keywords&api_key=${secrets.apiKeys.tmdbKey}&language=${language}`,
         json: true
     }, (error, response, body) => {
         if (error) {
@@ -77,13 +40,14 @@ const getMovieDetails = new Promise((resolve, reject) => {
                 runtime: body.runtime,
                 tmdbVoteAverage: body.vote_average,
                 tmdbVoteCount: body.vote_count,
-                poster: body.poster_path
+                poster: body.poster_path,
+                videos: body.videos.results,
+                genres: body.genres,
+                keywords: body.keywords.keywords
             })
         }
     })
 })
-
-
 
 // GET the movie credits by ID
 const getMovieCredits = (callback) => {
@@ -120,3 +84,39 @@ const getMovieCredits = (callback) => {
 
 module.exports.getMovieDetails = getMovieDetails
 module.exports.getMovieCredits = getMovieCredits
+
+// GET a movie by ID | Solution with callback
+// const getMovieDetails = (callback) => {
+//     request({
+//         method: 'GET',
+//         url: `https://api.themoviedb.org/3/movie/${movieId}?api_key=${secrets.apiKeys.tmdbKey}&language=${language}`,
+//         json: true
+//     }, (error, response, body) => {
+//         if (error) {
+//             callback({
+//                 errorCode: error.code,
+//                 host: error.host,
+//                 port: error.port,
+//                 message: `Error: ${error.code} | Host: ${error.host} | Port: ${error.port} -> Please check the API-URL.`
+//             })
+//         } else if (response.statusCode === 401) {
+//             callback({
+//                 statusCode: response.statusCode,
+//                 statusMessage: response.body.status_message
+//             })
+//         } else if (response.statusCode === 404) {
+//             callback({
+//                 statusCode: response.statusCode,
+//                 statusMessage: response.body.status_message
+//             })
+//         } else if (response.statusCode === 200) {
+//             callback(undefined, {
+//                 title: body.title,
+//                 releaseDate: body.release_date,
+//                 description: body.overview,
+//                 rating: body.vote_average,
+//                 poster: body.poster_path
+//             })
+//         }
+//     })
+// }
