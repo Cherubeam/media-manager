@@ -37,11 +37,13 @@ app.use((req, res, next) => {
 app.use(express.static(publicPath))
 
 // Test an API call | Promise
+// getMovieDetails
 let movie 
 
 tmdb.getMovieDetails.then((result) => {
     return movie = new Movie(undefined, result.tmdbID, result.imdbID, result.originalTitle, result.germanTitle, result.releaseDate, undefined, undefined, undefined, result.description, result.runtime, result.tmdbVoteAverage, result.tmdbVoteCount, undefined, result.poster, result.videos, result.genres, result.keywords, 'Blu-ray',)
 }).then(() => {
+    console.log(movie)
     app.get('/', (req, res) => {
         res.render('index.hbs', {
             movieTitle: movie.germanTitle,
@@ -56,20 +58,38 @@ tmdb.getMovieDetails.then((result) => {
     console.log(error)
 })
 
-setTimeout(() => {
-    console.log('--- Data ---')
-    console.log(movie)
-}, 2000);
+// Test an API call | Async Await
+tmdb.getMovieCredits.then((result) => {
+    let cast = []
+    for (index = 0; index < 5; index++) {
+        cast.push(result.cast[index])
+    }
 
+    let crew = result.crew[0]
+
+    console.log(cast)
+    console.log(crew)
+
+}).catch((error) => {
+    console.log(error)
+})
 // Test end
 
 // Routes
 app.get('/movies', (req, res) => {
-    res.status(200).send('Movies Overview Page')
+    try {
+        res.status(200).send('Movies Overview Page')
+    } catch(error) {
+        console.log(error)
+    }
 })
 
 app.get('/series', (req, res) => {
-    res.status(200).send('Series Overview Page')
+    try {
+        res.status(200).send('Series Overview Page')
+    } catch(error) {
+        console.log(error)
+    }
 })
 
 app.listen(port, () => {

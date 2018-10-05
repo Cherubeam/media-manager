@@ -13,19 +13,19 @@ const getMovieDetails = new Promise((resolve, reject) => {
         json: true
     }, (error, response, body) => {
         if (error) {
-            reject(new Error (JSON.stringify({
+            reject(new Error(JSON.stringify({
                 errorCode: error.code,
                 host: error.host,
                 port: error.port,
                 message: `Error: ${error.code} | Host: ${error.host} | Port: ${error.port} -> Please check the API-URL.`
             }, undefined, 2)))
         } else if (response.statusCode === 401) {
-            reject(new Error (JSON.stringify({
+            reject(new Error(JSON.stringify({
                 statusCode: response.statusCode,
                 statusMessage: response.body.status_message
             }, undefined, 2)))
         } else if (response.statusCode === 404) {
-            reject(new Error (JSON.stringify({
+            reject(new Error(JSON.stringify({
                 statusCode: response.statusCode,
                 statusMessage: response.body.status_message
             }, undefined, 2)))
@@ -50,37 +50,37 @@ const getMovieDetails = new Promise((resolve, reject) => {
 })
 
 // GET the movie credits by ID
-const getMovieCredits = (callback) => {
+const getMovieCredits = new Promise((resolve, reject) => {
     request({
         method: 'GET',
         url: `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${secrets.apiKeys.tmdbKey}&language=${language}`,
         json: true
     }, (error, response, body) => {
         if (error) {
-            callback({
+            reject(new Error(JSON.stringify({
                 errorCode: error.code,
                 host: error.host,
                 port: error.port,
                 message: `Error: ${error.code} | Host: ${error.host} | Port: ${error.port} -> Please check the API-URL.`
-            })
+            }, undefined, 2)))
         } else if (response.statusCode === 401) {
-            callback({
+            reject(new Error(JSON.stringify({
                 statusCode: response.statusCode,
                 statusMessage: response.body.status_message
-            })
+            }, undefined, 2)))
         } else if (response.statusCode === 404) {
-            callback({
+            reject(new Error(JSON.stringify({
                 statusCode: response.statusCode,
                 statusMessage: response.body.status_message
-            })
+            }, undefined, 2)))
         } else if (response.statusCode === 200) {
-            callback(undefined, {
+            resolve({
                 cast: body.cast,
                 crew: body.crew
             })
         }
     })
-}
+})
 
 module.exports.getMovieDetails = getMovieDetails
 module.exports.getMovieCredits = getMovieCredits
