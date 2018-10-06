@@ -43,16 +43,25 @@ let movie
 tmdb.getMovieDetails.then((result) => {
     return movie = new Movie(undefined, result.tmdbID, result.imdbID, result.originalTitle, result.germanTitle, result.releaseDate, undefined, undefined, undefined, result.description, result.runtime, result.tmdbVoteAverage, result.tmdbVoteCount, undefined, result.poster, result.videos, result.genres, result.keywords, 'Blu-ray',)
 }).then(() => {
+    //
     console.log(movie)
-    app.get('/', (req, res) => {
-        res.render('index.hbs', {
-            movieTitle: movie.germanTitle,
-            moviePoster: `https://image.tmdb.org/t/p/w342${movie.poster}`,
-            movieRelease: movie.releaseDate,
-            movieDescription: movie.description 
-            //movieGenres: movie.genres,
-            //movieKeywords: movie.keywords
-        })
+    //
+    app.get(`/${movie._tmdbID}`, (req, res) => { // TODO: change to proper id insteadif tmdbID later
+            res.render('index.hbs', {
+                movieTitle: movie.germanTitle,
+                moviePoster: `https://image.tmdb.org/t/p/w342${movie.poster}`,
+                movieRelease: movie.releaseDate,
+                movieDescription: movie.description
+                //movieGenres: movie.genres,
+                //movieKeywords: movie.keywords
+            }, (error, html) => {
+                if (error) {
+                    res.status(404).sendFile(publicPath + '/404.html')
+                    console.log(error)
+                } else {
+                    res.status(200).send(html)
+                }
+            })
     })
 }).catch((error) => {
     console.log(error)
