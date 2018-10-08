@@ -1,15 +1,17 @@
 const request = require('request')
 
-const secrets = require('../secrets/secrets')
+const keys = require('../../config/keys')
 
 let movieId = 272
 let language = 'de'
+
+console.log(keys.tmdb)
 
 // GET a movie ID | Solution with Promise
 const getMovieDetails = new Promise((resolve, reject) => {
     request({
         method: 'GET',
-        url: `https://api.themoviedb.org/3/movie/${movieId}?append_to_response=videos,images,keywords&api_key=${secrets.apiKeys.tmdbKey}&language=${language}`,
+        url: `https://api.themoviedb.org/3/movie/${movieId}?append_to_response=videos,images,keywords&api_key=${keys.tmdb.apiKey}&language=${language}`,
         json: true
     }, (error, response, body) => {
         if (error) {
@@ -53,7 +55,7 @@ const getMovieDetails = new Promise((resolve, reject) => {
 const getMovieCredits = new Promise((resolve, reject) => {
     request({
         method: 'GET',
-        url: `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${secrets.apiKeys.tmdbKey}&language=${language}`,
+        url: `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${keys.tmdb.apiKey}&language=${language}`,
         json: true
     }, (error, response, body) => {
         if (error) {
@@ -89,7 +91,7 @@ module.exports.getMovieCredits = getMovieCredits
 // const getMovieDetails = (callback) => {
 //     request({
 //         method: 'GET',
-//         url: `https://api.themoviedb.org/3/movie/${movieId}?api_key=${secrets.apiKeys.tmdbKey}&language=${language}`,
+//         url: `https://api.themoviedb.org/3/movie/${movieId}?api_key=${keys.tmdb.apiKey}&language=${language}`,
 //         json: true
 //     }, (error, response, body) => {
 //         if (error) {

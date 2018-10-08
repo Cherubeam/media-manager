@@ -8,7 +8,7 @@ const hbs = require('hbs')
 
 // Require own modules
 const Movie = require('./movie')
-const tmdb = require('../tmdb/tmdb')
+const tmdb = require('./tmdb/tmdb')
 
 // Setup express and publicPath
 const app = express()
