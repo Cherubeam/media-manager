@@ -2,11 +2,34 @@ const uuidv4 = require('uuid/v4')
 const moment = require('moment')
 
 class Movie {
-    constructor(id, tmdbID, imdbID, originalTitle, germanTitle, releaseDate, director, writers, actors, description, runtime, tmdbVoteAverage, tmdbVoteCount, imdbRating, poster, videos, genres, keywords, storageLocations) {
+    /**
+     *Creates an instance of Movie.
+     * @param {*} movieID
+     * @param {*} tmdbID
+     * @param {*} imdbID
+     * @param {*} originalTitle
+     * @param {*} germanTitle
+     * @param {*} releaseDate
+     * @param {*} director
+     * @param {*} writers
+     * @param {*} actors
+     * @param {*} description
+     * @param {*} runtime
+     * @param {*} tmdbVoteAverage
+     * @param {*} tmdbVoteCount
+     * @param {*} imdbRating
+     * @param {*} poster
+     * @param {*} videos
+     * @param {*} genres
+     * @param {*} keywords
+     * @param {*} storageLocations
+     * @memberof Movie
+     */
+    constructor(movieID, tmdbID, imdbID, originalTitle, germanTitle, releaseDate, director, writers, actors, description, runtime, tmdbVoteAverage, tmdbVoteCount, imdbRating, poster, videos, genres, keywords, storageLocations) {
         const timestamp = moment().format()
         this._createdAt = timestamp
         this._updatedAt = timestamp 
-        this._id = id || uuidv4()
+        this._movieDB = movieID || uuidv4()
         this._tmdbID = tmdbID
         this._imdbID = imdbID
         this._originalTitle = originalTitle

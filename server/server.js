@@ -5,6 +5,7 @@ const fs = require('fs')
 // Require third party modules
 const express = require('express')
 const hbs = require('hbs')
+const mongoose = require('mongoose')
 
 // Require own modules
 const Movie = require('./movie')
@@ -35,6 +36,19 @@ app.use((req, res, next) => {
 
 // Static page
 app.use(express.static(publicPath))
+
+// Connect to database
+mongoose.Promise = global.Promise // Tell mongoose that Promise will be used
+
+const Schema = mongoose.Schema
+
+const movieSchema = new Schema({
+    // TODO: create Schema here. After build a model.
+})
+
+mongoose.connect('mongodb://localhost:27017/MediaManager', {
+    useNewUrlParser: true // The underlying MongoDB driver has deprecated their current connection string parser. Because this is a major change, they added the useNewUrlParser flag to allow users to fall back to the old parser if they find a bug in the new parser.
+})
 
 // Test an API call | Promise
 // getMovieDetails

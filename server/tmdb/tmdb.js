@@ -8,7 +8,13 @@ let language = 'de'
 console.log(keys.tmdb)
 
 // GET a movie ID | Solution with Promise
-const getMovieDetails = new Promise((resolve, reject) => {
+const /**
+ *
+ *
+ * @param {*} resolve
+ * @param {*} reject
+ */
+getMovieDetails = new Promise((resolve, reject) => {
     request({
         method: 'GET',
         url: `https://api.themoviedb.org/3/movie/${movieId}?append_to_response=videos,images,keywords&api_key=${keys.tmdb.apiKey}&language=${language}`,
@@ -52,7 +58,13 @@ const getMovieDetails = new Promise((resolve, reject) => {
 })
 
 // GET the movie credits by ID
-const getMovieCredits = new Promise((resolve, reject) => {
+const /**
+ *
+ *
+ * @param {*} resolve
+ * @param {*} reject
+ */
+getMovieCredits = new Promise((resolve, reject) => {
     request({
         method: 'GET',
         url: `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${keys.tmdb.apiKey}&language=${language}`,
