@@ -1,5 +1,5 @@
-const uuidv4 = require('uuid/v4')
-const moment = require('moment')
+import uuidv4 from 'uuid/v4'
+import moment from 'moment'
 
 class Movie {
     /**
@@ -131,4 +131,4 @@ class Movie {
     }
 }
 
-module.exports = Movie
+export { Movie as default }

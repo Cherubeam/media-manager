@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node server/server.js",
-    "dev": "nodemon server/server.js",
+    "dev": "nodemon server/server.js --ext js,graphql --exec babel-node",
     "test": "mocha **/*.test.js",
     "test-watch": "nodemon --exec \"npm test\"",
     "test-jest": "jest --verbose --coverage --watchAll"
@@ -20,11 +20,15 @@
     "express": "^4.16.4",
     "hbs": "^4.0.1",
     "moment": "^2.22.2",
-    "mongoose": "^5.3.2",
     "request": "^2.88.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.4",
+    "@babel/node": "^7.2.2",
+    "@babel/plugin-proposal-object-rest-spread": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
     "jest": "^23.6.0",
     "mocha": "^5.2.0",
     "supertest": "^3.3.0"

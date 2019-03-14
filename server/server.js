@@ -1,15 +1,20 @@
 // Require node modules
-const path = require('path')
-const fs = require('fs')
+import path from 'path'
+import fs from 'fs'
 
 // Require third party modules
-const express = require('express')
-const hbs = require('hbs')
-const mongoose = require('mongoose')
+import dotenv from 'dotenv'
+import express from 'express'
+import hbs from 'hbs'
 
 // Require own modules
-const Movie = require('./movie')
-const tmdb = require('./tmdb/tmdb')
+import Movie from './movie'
+import { getMovieDetails, getMovieCredits } from './tmdb/tmdb'
+
+// Assign process.env the keys and values from config/apiKeys.env
+dotenv.config({
+    path: path.join(__dirname, '../config/apiKeys.env')
+})
 
 // Setup express and publicPath
 const app = express()
@@ -37,24 +42,11 @@ app.use((req, res, next) => {
 // Static page
 app.use(express.static(publicPath))
 
-// Connect to database
-mongoose.Promise = global.Promise // Tell mongoose that Promise will be used
-
-const Schema = mongoose.Schema
-
-const movieSchema = new Schema({
-    // TODO: create Schema here. After build a model.
-})
-
-mongoose.connect('mongodb://localhost:27017/MediaManager', {
-    useNewUrlParser: true // The underlying MongoDB driver has deprecated their current connection string parser. Because this is a major change, they added the useNewUrlParser flag to allow users to fall back to the old parser if they find a bug in the new parser.
-})
-
 // Test an API call | Promise
 // getMovieDetails
-let movie 
+let movie
 
-tmdb.getMovieDetails.then((result) => {
+getMovieDetails.then((result) => {
     return movie = new Movie(undefined, result.tmdbID, result.imdbID, result.originalTitle, result.germanTitle, result.releaseDate, undefined, undefined, undefined, result.description, result.runtime, result.tmdbVoteAverage, result.tmdbVoteCount, undefined, result.poster, result.videos, result.genres, result.keywords, 'Blu-ray',)
 }).then(() => {
     //
@@ -82,9 +74,9 @@ tmdb.getMovieDetails.then((result) => {
 })
 
 // Test an API call | Async Await
-tmdb.getMovieCredits.then((result) => {
+getMovieCredits.then((result) => {
     let cast = []
-    for (index = 0; index < 5; index++) {
+    for (let index = 0; index < 5; index++) {
         cast.push(result.cast[index])
     }
 
@@ -118,5 +110,3 @@ app.get('/series', (req, res) => {
 app.listen(port, () => {
     console.log(`Server is up on port ${port}`)
 })
-
-module.exports.app = app

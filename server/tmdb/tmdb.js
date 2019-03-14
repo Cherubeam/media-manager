@@ -1,10 +1,14 @@
-const request = require('request')
+import path from 'path'
+import dotenv from 'dotenv'
+import request from 'request'
+import keys from '../../config/apiKeys'
 
-const keys = require('../../config/apiKeys')
+dotenv.config({
+    path: path.join(__dirname, '../../config/apiKeys.env')
+})
 
 let movieId = 272
 let language = 'de'
-
 
 // GET a movie ID | Solution with Promise
 const /**
@@ -16,7 +20,7 @@ const /**
 getMovieDetails = new Promise((resolve, reject) => {
     request({
         method: 'GET',
-        url: `https://api.themoviedb.org/3/movie/${movieId}?append_to_response=videos,images,keywords&api_key=${keys.tmdb.apiKey}&language=${language}`,
+        url: `https://api.themoviedb.org/3/movie/${movieId}?append_to_response=videos,images,keywords&api_key=${process.env.TMDB_API_KEY}&language=${language}`,
         json: true
     }, (error, response, body) => {
         if (error) {
@@ -95,8 +99,7 @@ getMovieCredits = new Promise((resolve, reject) => {
     })
 })
 
-module.exports.getMovieDetails = getMovieDetails
-module.exports.getMovieCredits = getMovieCredits
+export { getMovieDetails, getMovieCredits }
 
 // GET a movie by ID | Solution with callback
 // const getMovieDetails = (callback) => {
