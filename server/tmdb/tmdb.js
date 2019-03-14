@@ -1,11 +1,10 @@
 const request = require('request')
 
-const keys = require('../../config/keys')
+const keys = require('../../config/apiKeys')
 
 let movieId = 272
 let language = 'de'
 
-console.log(keys.tmdb)
 
 // GET a movie ID | Solution with Promise
 const /**

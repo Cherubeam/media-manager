@@ -3,7 +3,7 @@ const moment = require('moment')
 
 class Movie {
     /**
-     *Creates an instance of Movie.
+     * Creates an instance of Movie.
      * @param {*} movieID
      * @param {*} tmdbID
      * @param {*} imdbID
