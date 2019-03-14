@@ -7,20 +7,13 @@ dotenv.config({
     path: path.join(__dirname, '../../../config/apiKeys.env')
 })
 
-let movieId = 272
-let language = 'de'
+const id = 272
+const language = 'de'
 
-// GET a movie ID | Solution with Promise
-const /**
- *
- *
- * @param {*} resolve
- * @param {*} reject
- */
-getMovieDetails = new Promise((resolve, reject) => {
+const getMovieDetails = new Promise((resolve, reject) => {
     request({
         method: 'GET',
-        url: `https://api.themoviedb.org/3/movie/${movieId}?append_to_response=videos,images,keywords&api_key=${process.env.TMDB_API_KEY}&language=${language}`,
+        url: `https://api.themoviedb.org/3/movie/${id}?append_to_response=videos,images,keywords&api_key=${process.env.TMDB_API_KEY}&language=${language}`,
         json: true
     }, (error, response, body) => {
         if (error) {
@@ -60,17 +53,10 @@ getMovieDetails = new Promise((resolve, reject) => {
     })
 })
 
-// GET the movie credits by ID
-const /**
- *
- *
- * @param {*} resolve
- * @param {*} reject
- */
-getMovieCredits = new Promise((resolve, reject) => {
+const getMovieCredits = new Promise((resolve, reject) => {
     request({
         method: 'GET',
-        url: `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${keys.tmdb.apiKey}&language=${language}`,
+        url: `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${process.env.TMDB_API_KEY}&language=${language}`,
         json: true
     }, (error, response, body) => {
         if (error) {

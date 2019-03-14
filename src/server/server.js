@@ -6,9 +6,11 @@ import fs from 'fs'
 import dotenv from 'dotenv'
 import express from 'express'
 import hbs from 'hbs'
+import { GraphQLServer } from 'graphql-yoga'
 
 // Require own modules
 import Movie from './movie'
+import resolvers from './resolvers/index'
 import { getMovieDetails, getMovieCredits } from './tmdb/tmdb'
 
 // Assign process.env the keys and values from config/apiKeys.env
@@ -20,6 +22,12 @@ dotenv.config({
 const app = express()
 const port = process.env.PORT || 3000
 const publicPath = path.join(__dirname, '../public')
+
+// Setup GraphQLServer
+const server = new GraphQLServer({
+    typeDefs: './src/server/schema.graphql',
+    resolvers
+})
 
 // Views
 hbs.registerPartials(publicPath + '/views/partials')
@@ -108,5 +116,9 @@ app.get('/series', (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`Server is up on port ${port}`)
+    console.log(`Server is running on localhost:${port}`)
+})
+
+server.start({ port: 5000 }, () => {
+    console.log(`Server is running on localhost:5000`)
 })

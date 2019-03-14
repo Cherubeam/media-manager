@@ -1,0 +1,28 @@
+type Query {
+    movieDetails(id: ID!): MovieDetails!
+    movieCredits(id: ID!): MovieCredits!
+}
+
+type MovieDetails {
+    tmdbID: ID!
+    imdbID: ID!
+    originalTitle: String!
+    germanTitle: String!
+    releaseDate: String!
+    description: String!
+}
+
+type MovieCredits {
+    cast: [Cast!]!
+}
+
+type Cast {
+    cast_id: ID!
+    character: String!
+    credit_id: ID!
+    gender: Int!
+    id: ID!
+    name: String!
+    order: Int!
+    profile_path: String!
+}
