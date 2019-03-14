@@ -46,7 +46,7 @@ app.use(express.static(publicPath))
 // getMovieDetails
 let movie
 
-getMovieDetails.then((result) => {
+getMovieDetails.then(result => {
     return movie = new Movie(undefined, result.tmdbID, result.imdbID, result.originalTitle, result.germanTitle, result.releaseDate, undefined, undefined, undefined, result.description, result.runtime, result.tmdbVoteAverage, result.tmdbVoteCount, undefined, result.poster, result.videos, result.genres, result.keywords, 'Blu-ray',)
 }).then(() => {
     //
@@ -69,12 +69,12 @@ getMovieDetails.then((result) => {
                 }
             })
     })
-}).catch((error) => {
+}).catch(error => {
     console.log(error)
 })
 
 // Test an API call | Async Await
-getMovieCredits.then((result) => {
+getMovieCredits.then(result => {
     let cast = []
     for (let index = 0; index < 5; index++) {
         cast.push(result.cast[index])
@@ -85,7 +85,7 @@ getMovieCredits.then((result) => {
     console.log(cast)
     console.log(crew)
 
-}).catch((error) => {
+}).catch(error => {
     console.log(error)
 })
 // Test end

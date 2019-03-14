@@ -4,8 +4,8 @@
   "description": "A manager for all the media and entertaining stuff in your home as movies, series, music, video games and so on.",
   "main": "app.js",
   "scripts": {
-    "start": "node server/server.js",
-    "dev": "nodemon server/server.js --ext js,graphql --exec babel-node",
+    "start": "node src/server/server.js",
+    "dev": "nodemon src/server/server.js --ext js,graphql --exec babel-node",
     "test": "mocha **/*.test.js",
     "test-watch": "nodemon --exec \"npm test\"",
     "test-jest": "jest --verbose --coverage --watchAll"
@@ -18,6 +18,7 @@
   "dependencies": {
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
+    "graphql-yoga": "^1.17.4",
     "hbs": "^4.0.1",
     "moment": "^2.22.2",
     "request": "^2.88.0",

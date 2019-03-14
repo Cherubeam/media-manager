@@ -1,10 +1,10 @@
 import path from 'path'
 import dotenv from 'dotenv'
 import request from 'request'
-import keys from '../../config/apiKeys'
+import keys from '../../../config/apiKeys'
 
 dotenv.config({
-    path: path.join(__dirname, '../../config/apiKeys.env')
+    path: path.join(__dirname, '../../../config/apiKeys.env')
 })
 
 let movieId = 272
