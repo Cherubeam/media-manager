@@ -6,9 +6,7 @@
   "scripts": {
     "start": "node src/server/server.js",
     "dev": "nodemon src/server/server.js --ext js,graphql --exec babel-node",
-    "test": "mocha **/*.test.js",
-    "test-watch": "nodemon --exec \"npm test\"",
-    "test-jest": "jest --verbose --coverage --watchAll"
+    "test": "jest --coverage --verbose --watch --runInBand"
   },
   "engines": {
     "node": "9.5.0"
@@ -16,8 +14,10 @@
   "author": "Marco Braun",
   "license": "MIT",
   "dependencies": {
+    "@babel/polyfill": "^7.2.5",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
+    "graphql-cli": "^3.0.11",
     "graphql-yoga": "^1.17.4",
     "hbs": "^4.0.1",
     "moment": "^2.22.2",
@@ -30,8 +30,6 @@
     "@babel/node": "^7.2.2",
     "@babel/plugin-proposal-object-rest-spread": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
-    "jest": "^23.6.0",
-    "mocha": "^5.2.0",
-    "supertest": "^3.3.0"
+    "jest": "^24.5.0"
   }
 }

@@ -10,6 +10,11 @@ type MovieDetails {
     germanTitle: String!
     releaseDate: String!
     description: String!
+    runtime: Int!
+    tmdbVoteAverage: Float!
+    tmdbVoteCount: Int!
+    poster: String!
+    videos: [Video]!
 }
 
 type MovieCredits {
@@ -25,4 +30,15 @@ type Cast {
     name: String!
     order: Int!
     profile_path: String!
+}
+
+type Video {
+    id: ID!
+    iso_639_1: String!
+    iso_3166_1: String!
+    key: String!
+    name: String!
+    site: String!
+    size: Int!
+    type: String!
 }

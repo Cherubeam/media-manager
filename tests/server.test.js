@@ -1,6 +1,6 @@
 const request = require('supertest')
 
-const app = require('./server').app
+const app = require('../src/server/server').app
 
 describe('Server', () => {
     describe('GET /movies', () => {

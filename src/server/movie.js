@@ -29,7 +29,7 @@ class Movie {
         const timestamp = moment().format()
         this._createdAt = timestamp
         this._updatedAt = timestamp 
-        this._movieDB = movieID || uuidv4()
+        this._movieID = movieID || uuidv4()
         this._tmdbID = tmdbID
         this._imdbID = imdbID
         this._originalTitle = originalTitle

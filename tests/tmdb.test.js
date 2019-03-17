@@ -1,6 +1,6 @@
 const request = require('supertest')
 
-const getMovieDetails = require('./tmdb').getMovieDetails
+const getMovieDetails = require('../src/server/tmdb/tmdb').getMovieDetails
 
 describe('TMDB requests', () => {
     describe('GET Movie Details', () => {

@@ -82,20 +82,20 @@ getMovieDetails.then(result => {
 })
 
 // Test an API call | Async Await
-getMovieCredits.then(result => {
-    let cast = []
-    for (let index = 0; index < 5; index++) {
-        cast.push(result.cast[index])
-    }
+// getMovieCredits.then(result => {
+//     let cast = []
+//     for (let index = 0; index < 5; index++) {
+//         cast.push(result.cast[index])
+//     }
 
-    let crew = result.crew[0]
+//     let crew = result.crew[0]
 
-    console.log(cast)
-    console.log(crew)
+//     console.log(cast)
+//     console.log(crew)
 
-}).catch(error => {
-    console.log(error)
-})
+// }).catch(error => {
+//     console.log(error)
+// })
 // Test end
 
 // Routes
