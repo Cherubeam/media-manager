@@ -52,7 +52,11 @@ class Movie {
     }
 
     get id() {
-        return this._id
+        return this._movieID
+    }
+
+    get tmdbID() {
+        return this._tmdbID
     }
 
     get germanTitle() {
@@ -131,4 +135,4 @@ class Movie {
     }
 }
 
-export { Movie as default }
+export default Movie

@@ -1,4 +1,10 @@
 import request from 'request'
+import dotenv from 'dotenv'
+import path from 'path'
+
+dotenv.config({
+    path: path.join(__dirname, '../../../config/apiKeys.env')
+})
 
 const language = 'de'
 
@@ -73,7 +79,7 @@ const Query = {
                     }, undefined, 2)))
                 } else if (response.statusCode === 200) {
                     resolve({
-                        cast: body.cast//,
+                        cast: body.cast //,
                         //crew: body.crew
                     })
                 }
@@ -82,4 +88,4 @@ const Query = {
     }
 }
 
-export { Query as default }
+export default Query
