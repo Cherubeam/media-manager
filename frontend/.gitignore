@@ -1,6 +1,3 @@
 .DS_Store
-config/
 coverage/
 node_modules/
-playground/
-server.log
