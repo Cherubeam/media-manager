@@ -1,6 +1,18 @@
 type Query {
+    movieSearch(query: String!): [MovieSearch!]!
     movieDetails(id: ID!): MovieDetails!
     movieCredits(id: ID!): MovieCredits!
+}
+
+type MovieSearch {
+    tmdbID: ID!
+    originalTitle: String!
+    germanTitle: String!
+    releaseDate: String!
+    description: String!
+    tmdbVoteAverage: Float!
+    tmdbVoteCount: Int!
+    poster: String!
 }
 
 type MovieDetails {
