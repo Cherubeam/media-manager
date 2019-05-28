@@ -1,7 +1,7 @@
 {
   "name": "media-manager-frontend",
   "version": "1.0.0",
-  "description": "A manager for all the media and entertaining stuff in your home as movies, series, music, video games and so on.",
+  "description": "A manager for all the media and entertaining stuff in your home like movies, series, music, video games and so on.",
   "main": "app.js",
   "scripts": {
     "build": "webpack",

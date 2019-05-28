@@ -1,33 +1,9 @@
-import React, { useEffect, useReducer } from 'react'
-import ApolloBoost, { gql} from 'apollo-boost'
+import React, { useState, useEffect, useReducer } from 'react'
 import { Query } from 'react-apollo'
+import MoviesContext from '../context/moviesContext'
 import moviesReducer from '../reducers/movies'
 import AppBar from './layout/AppBar'
 import MediaCard from './layout/MediaCard'
-import SearchBar from './SearchBar';
-import moviesContext from '../context/moviesContext'
-import TEST from './TEST'
-
-const client = new ApolloBoost({
-    uri: 'http://localhost:5000'
-})
-
-const GET_MOVIE_DETAILS = gql`
-    query Movie($movieID: ID!) {
-        movieDetails(id: $movieID) {
-            originalTitle
-            description
-        }
-    }
-`
-
-const testMovies = [{
-    title: 'Batman Begins',
-    actor: 'Christian Bale',
-    year: '2003'
-}]
-
-localStorage.setItem('movies', JSON.stringify(testMovies))
 
 export default () => {
     const [movies, dispatch] = useReducer(moviesReducer, [])
@@ -45,23 +21,22 @@ export default () => {
         }
     }, [])
 
-    const searchMovie = searchValue => {
-        console.log('--- SEARCH ---')
-        console.log('ID: ', searchValue)
+    useEffect(() => {
+        localStorage.setItem('movies', JSON.stringify(movies))
+    }, [movies])
 
-        const result = client.query({
-            query: GET_MOVIE_DETAILS,
-            variables: { movieID: searchValue }
-        }).then(response => {
-            console.log(response)
+    const addMovie = e => {
+        e.preventDefault()
+        dispatch({
+            type: 'ADD_MOVIE',
+            movie
         })
     }
 
     return (
-        <moviesContext.Provider value={{ movies, dispatch }}>
+        <MoviesContext.Provider value={{ movies, dispatch }}>
             <AppBar />
-            <SearchBar searchMovie={searchMovie} />
             <MediaCard />
-        </moviesContext.Provider>
+        </MoviesContext.Provider>
     )
 }

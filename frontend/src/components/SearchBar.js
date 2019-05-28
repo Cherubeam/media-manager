@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react'
-import MoviesContext from '../context/moviesContext'
 import { makeStyles } from '@material-ui/core/styles'
 import Input from '@material-ui/core/Input'
 
@@ -17,15 +16,8 @@ export default (props) => {
     const classes = useStyles()
     const [searchValue, setSearchValue ] = useState('')
 
-    //--- TESTING START
-    const { movies } = useContext(MoviesContext)
-    console.log('--- MOVIES ---')
-    console.log(movies[0])
-    //--- TESTING END
-
     const handleSearchInputChanges = e => {
         setSearchValue(e.target.value)
-        console.log(e.target.value)
     }
 
     const resetInputField = () => {
@@ -44,7 +36,7 @@ export default (props) => {
                 placeholder="Search movie"
                 className={classes.input}
                 inputProps={{
-                    'aria-label': 'Description',
+                    'aria-label': 'Search movie',
                 }}
                 value={searchValue}
                 onChange={handleSearchInputChanges}
