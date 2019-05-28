@@ -2,6 +2,7 @@ type Query {
     movieSearch(query: String!): [MovieSearch!]!
     movieDetails(id: ID!): MovieDetails!
     movieCredits(id: ID!): MovieCredits!
+    movieTrendingWeekly: [MovieTrendingWeekly!]!
 }
 
 type MovieSearch {
@@ -31,6 +32,18 @@ type MovieDetails {
 
 type MovieCredits {
     cast: [Cast!]!
+}
+
+type MovieTrendingWeekly {
+    tmdbID: ID!
+    originalTitle: String!
+    germanTitle: String!
+    releaseDate: String!
+    description: String!
+    tmdbVoteAverage: Float!
+    tmdbVoteCount: Int!
+    popularity: Float!
+    poster: String!
 }
 
 type Cast {

@@ -7,6 +7,7 @@ dotenv.config({
 })
 
 const language = 'de'
+const region = 'DE'
 
 const Query = {
     movieSearch(parent, { query }, ctx, info) {
@@ -122,9 +123,53 @@ const Query = {
                     }, undefined, 2)))
                 } else if (response.statusCode === 200) {
                     resolve({
-                        cast: body.cast //,
-                        //crew: body.crew
+                        cast: body.cast
+                        // TODO: crew: body.crew
                     })
+                }
+            })
+        })
+    },
+    movieTrendingWeekly(parent, args, ctx, info) {
+        return new Promise((resolve, reject) => {
+            request({
+                method: 'GET',
+                url: `https://api.themoviedb.org/3/trending/movie/week?api_key=${process.env.TMDB_API_KEY}&language=${language}&region=${region}`,
+                json: true
+            }, (error, response, body) => {
+                if (error) {
+                    reject(new Error(JSON.stringify({
+                        errorCode: error.code,
+                        host: error.host,
+                        port: error.port,
+                        message: `Error: ${error.code} | Host: ${error.host} | Port: ${error.port} -> Please check the API-URL.`
+                    }, undefined, 2)))
+                } else if (response.statusCode === 401) {
+                    reject(new Error(JSON.stringify({
+                        statusCode: response.statusCode,
+                        statusMessage: response.body.status_message
+                    }, undefined, 2)))
+                } else if (response.statusCode === 404) {
+                    reject(new Error(JSON.stringify({
+                        statusCode: response.statusCode,
+                        statusMessage: response.body.status_message
+                    }, undefined, 2)))
+                } else if (response.statusCode === 200) {
+                    const payload = []
+                    body.results.forEach((movie) => {
+                        payload.push({
+                            tmdbID: movie.id,
+                            originalTitle: movie.original_title,
+                            germanTitle: movie.title,
+                            releaseDate: movie.release_date,
+                            description: movie.overview,
+                            tmdbVoteAverage: movie.vote_average,
+                            tmdbVoteCount: movie.vote_count,
+                            popularity: movie.popularity,
+                            poster: `https://image.tmdb.org/t/p/w342/${movie.poster_path}`
+                        })
+                    })
+                    resolve(payload)
                 }
             })
         })
