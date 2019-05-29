@@ -1,18 +1,20 @@
 const moviesReducer = (state, action) => {
     switch (action.type) {
         case 'POPULATE_MOVIES':
-                return action.movies
+            return action.movies
+        case 'GET_WEEKLY_TRENDING_MOVIES':
+            return action.movies
         case 'GET_MOVIES_BY_NAME':
             return action.movies
         case 'GET_MOVIE_BY_ID':
                 return action.movies
-        case 'ADD_MOVIE':
+        case 'ADD_OWN_MOVIE':
             return [
                 ...state,
                 action.movie
             ]
-        case 'REMOVE_MOVIE':
-            return state.filter(movie => movie.originTitle !== action.title)
+        case 'REMOVE_OWN_MOVIE':
+            return state.filter(movie => movie.tmdbID !== action.id)
         default:
             return state
     }

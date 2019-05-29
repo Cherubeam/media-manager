@@ -33,8 +33,11 @@ export default (props) => {
     return (
         <form>
             <Input
-                placeholder="Search movie"
                 className={classes.input}
+                type="text"
+                placeholder="Search movie"
+                autoFocus
+                fullWidth
                 inputProps={{
                     'aria-label': 'Search movie',
                 }}

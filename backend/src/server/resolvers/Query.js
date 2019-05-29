@@ -165,7 +165,7 @@ const Query = {
                             description: movie.overview,
                             tmdbVoteAverage: movie.vote_average,
                             tmdbVoteCount: movie.vote_count,
-                            popularity: movie.popularity,
+                            popularity: movie.popularity || null,
                             poster: `https://image.tmdb.org/t/p/w342/${movie.poster_path}`
                         })
                     })

@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useReducer } from 'react'
+import React, { useEffect, useReducer } from 'react'
 import { Query } from 'react-apollo'
-import MoviesContext from '../context/moviesContext'
+import OwnMoviesContext from '../context/OwnMovies'
 import moviesReducer from '../reducers/movies'
-import AppBar from './layout/AppBar'
-import MediaCard from './layout/MediaCard'
+import Header from './Layouts/Header'
 
 export default () => {
-    const [movies, dispatch] = useReducer(moviesReducer, [])
+    const [ movies, dispatch ] = useReducer(moviesReducer, [])
 
     useEffect(() => {
         const movies = JSON.parse(localStorage.getItem('movies'))
@@ -35,8 +34,7 @@ export default () => {
 
     return (
         <MoviesContext.Provider value={{ movies, dispatch }}>
-            <AppBar />
-            <MediaCard />
+            <Header />
         </MoviesContext.Provider>
     )
 }
