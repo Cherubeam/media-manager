@@ -4,7 +4,6 @@ import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
 import { ThemeProvider } from '@material-ui/styles'
 import MediaManager from './components/MediaManager'
-// import 'typeface-roboto';
 
 console.log('React is running!')
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { AppBar, Toolbar, Typography, Button } from '@material-ui/core'
+import TabBar from '../Navigation/TabBar'
 
 const useStyles = makeStyles({
     root: {
@@ -23,6 +24,7 @@ export default () => {
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
+                <TabBar />
             </AppBar>
         </div>
     )
