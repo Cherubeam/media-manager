@@ -1,18 +1,17 @@
 import React, { useEffect, useReducer } from 'react'
-import ApolloBoost, { gql } from 'apollo-boost'
+import ApolloBoost from 'apollo-boost'
 import { useTheme } from '@material-ui/styles'
 import { makeStyles } from '@material-ui/styles'
 
-import SearchMovieContext from '../context/SearchMovies'
-import OwnMoviesContext from '../context/OwnMovies'
-import searchReducer from '../reducers/search'
-import movieReducer from '../reducers/movies'
-import getWeeklyTrendingMovies from '../queries/getWeeklyTrendingMovies'
-import getMoviesByName from '../queries/getMoviesByName'
-import LinearProgess from './LinearProgress'
+import SearchMovieContext from '../../context/SearchMovies'
+import OwnMoviesContext from '../../context/OwnMovies'
+import searchReducer from '../../reducers/search'
+import movieReducer from '../../reducers/movies'
+import getWeeklyTrendingMovies from '../../queries/getWeeklyTrendingMovies'
+import getMoviesByName from '../../queries/getMoviesByName'
+import LinearProgess from '../LinearProgress'
 import SearchBar from './SearchBar'
-import MediaCardList from './MediaCard/MediaCardList'
-import AutoGrid from './Layouts/Header'
+import MediaCardList from '../MediaCard/MediaCardList'
 
 const useStyles = makeStyles({
 	root: {
