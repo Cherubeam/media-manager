@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Switch, Link } from 'react-router-dom'
 import { ThemeProvider } from '@material-ui/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
+import Header from '../components/Layouts/Header'
+import TabBar from '../components/Navigation/TabBar'
 import SearchPage from '../components/Search/SearchPage'
 import MoviesDashboard from '../components/MoviesDashboard'
 import SeriesDashboard from '../components/SeriesDashboard'
@@ -30,19 +32,7 @@ const AppRouter = () => (
 	<ThemeProvider>
 		<BrowserRouter>
 			<div>
-				<nav>
-					<ul>
-						<li>
-							<Link to="/">Search</Link>
-						</li>
-						<li>
-							<Link to="/movies">Movies</Link>
-						</li>
-						<li>
-							<Link to="/series">Series</Link>
-						</li>
-					</ul>
-				</nav>
+				<Header />
 				<CssBaseline />
 				<Switch>
 					<Route exact path="/" component={AdapterSearchPage} />
@@ -54,4 +44,4 @@ const AppRouter = () => (
 	</ThemeProvider>
 )
 
-export default AppRouter
+export { AdapterSearchPage, AdapterMoviesDashboard, AppRouter as default }
