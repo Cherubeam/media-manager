@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useReducer } from 'react'
+import React, { useEffect, useReducer } from 'react'
 import ApolloBoost, { gql } from 'apollo-boost'
 import { useTheme } from '@material-ui/styles'
 import { makeStyles } from '@material-ui/styles'
+
 import SearchMovieContext from '../context/SearchMovies'
 import OwnMoviesContext from '../context/OwnMovies'
 import searchReducer from '../reducers/search'
 import movieReducer from '../reducers/movies'
+import getWeeklyTrendingMovies from '../queries/getWeeklyTrendingMovies'
+import getMoviesByName from '../queries/getMoviesByName'
 import LinearProgess from './LinearProgress'
-import Header from './Layouts/Header'
 import SearchBar from './SearchBar'
 import MediaCardList from './MediaCard/MediaCardList'
 import AutoGrid from './Layouts/Header'
@@ -22,42 +24,16 @@ const client = new ApolloBoost({
 	uri: 'http://localhost:5000'
 })
 
+// setup initial search state
 const initialState = {
 	loading: true,
 	movies: [],
 	errorMessage: null
 }
 
-const GET_WEEKLY_TRENDING_MOVIES = gql`
-	query Movie {
-		movieTrendingWeekly {
-			tmdbID
-			originalTitle
-			germanTitle
-			releaseDate
-			description
-			tmdbVoteAverage
-			tmdbVoteCount
-			popularity
-			poster
-		}
-	}
-`
-
-const GET_MOVIES_BY_NAME = gql`
-	query Movie($query: String!) {
-		movieSearch(query: $query) {
-			tmdbID
-			originalTitle
-			germanTitle
-			releaseDate
-			description
-			tmdbVoteAverage
-			tmdbVoteCount
-			poster
-		}
-	}
-`
+// load in GraphQL queries
+const GET_WEEKLY_TRENDING_MOVIES = getWeeklyTrendingMovies
+const GET_MOVIES_BY_NAME = getMoviesByName
 
 export default () => {
 	const classes = useStyles()
@@ -130,13 +106,13 @@ export default () => {
 	}
 
 	const handleAddMovie = movie => {
-        const movieIDs = movieState.map(ownMovie => ownMovie.tmdbID)
+		const movieIDs = movieState.map(ownMovie => ownMovie.tmdbID)
 
-        if (movieIDs.includes(movie.tmdbID)) {
-            console.log('Entry already exists in own library!')
-            return
-        }
-        
+		if (movieIDs.includes(movie.tmdbID)) {
+			console.log('Entry already exists in own library!')
+			return
+		}
+
 		movieDispatch({
 			type: 'ADD_OWN_MOVIE',
 			movie
@@ -144,7 +120,7 @@ export default () => {
 	}
 
 	const handleRemoveMovie = movie => {
-        // TODO: check if movie exists
+		// TODO: check if movie exists
 		movieDispatch({
 			type: 'REMOVE_OWN_MOVIE',
 			id: movie.tmdbID
@@ -159,7 +135,6 @@ export default () => {
 				value={{ handleAddMovie, handleRemoveMovie }}
 			>
 				{loading && !errorMessage && <LinearProgess />}
-				<Header />
 				<SearchBar searchMovie={searchMovie} />
 				<div className="movies">
 					{loading && !errorMessage ? (

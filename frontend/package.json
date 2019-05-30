@@ -1,36 +1,36 @@
 {
-  "name": "media-manager-frontend",
-  "version": "1.0.0",
-  "description": "A manager for all the media and entertaining stuff in your home like movies, series, music, video games and so on.",
-  "main": "app.js",
-  "scripts": {
-    "build": "webpack",
-    "dev-server": "webpack-dev-server",
-    "test": ""
-  },
-  "author": "Marco Braun",
-  "license": "MIT",
-  "dependencies": {
-    "@babel/polyfill": "7.4.4",
-    "@material-ui/core": "4.0.0",
-    "@material-ui/icons": "4.0.1",
-    "apollo-boost": "0.4.0",
-    "babel-loader": "8.0.6",
-    "graphql": "14.3.1",
-    "react": "16.8.6",
-    "react-apollo": "2.5.6",
-    "react-dom": "16.8.6",
-    "react-router-dom": "5.0.0",
-    "webpack": "4.32.2"
-  },
-  "devDependencies": {
-    "@babel/cli": "7.4.4",
-    "@babel/core": "7.4.5",
-    "@babel/preset-env": "7.4.5",
-    "@babel/preset-react": "7.0.0",
-    "file-loader": "3.0.1",
-    "prettier": "1.17.1",
-    "webpack-cli": "3.3.2",
-    "webpack-dev-server": "3.4.1"
-  }
+	"name": "media-manager-frontend",
+	"version": "1.0.0",
+	"description": "A manager for all the media and entertaining stuff in your home like movies, series, music, video games and so on.",
+	"main": "app.js",
+	"scripts": {
+		"build": "webpack",
+		"dev-server": "webpack-dev-server",
+		"test": ""
+	},
+	"author": "Marco Braun",
+	"license": "MIT",
+	"dependencies": {
+		"@babel/polyfill": "7.4.4",
+		"@material-ui/core": "4.0.0",
+		"@material-ui/icons": "4.0.1",
+		"apollo-boost": "0.4.0",
+		"babel-loader": "8.0.6",
+		"graphql": "14.3.1",
+		"react": "16.8.6",
+		"react-apollo": "2.5.6",
+		"react-dom": "16.8.6",
+		"react-router-dom": "5.0.0",
+		"webpack": "4.32.2"
+	},
+	"devDependencies": {
+		"@babel/cli": "7.4.4",
+		"@babel/core": "7.4.5",
+		"@babel/preset-env": "7.4.5",
+		"@babel/preset-react": "7.0.0",
+		"file-loader": "3.0.1",
+		"prettier": "1.17.1",
+		"webpack-cli": "3.3.2",
+		"webpack-dev-server": "3.4.1"
+	}
 }
