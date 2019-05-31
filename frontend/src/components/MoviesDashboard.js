@@ -1,51 +1,47 @@
-import React, { useEffect, useReducer } from 'react'
+import React, { useContext, useEffect } from 'react'
 import ApolloBoost from 'apollo-boost'
 
+import MediaContext from '../context/MediaContext'
 import OwnMoviesContext from '../context/OwnMovies'
 import moviesReducer from '../reducers/movies'
 import MediaCardList from './MediaCard/MediaCardList'
 
 export default () => {
-	const [movieState, movieDispatch] = useReducer(moviesReducer, [])
+	const { moviesState, dispatch } = useContext(MediaContext)
 
 	useEffect(() => {
-		const ownMovies = JSON.parse(localStorage.getItem('movies'))
+		const movies = JSON.parse(localStorage.getItem('movies'))
 
-		if (ownMovies) {
-			movieDispatch({
+		if (movies) {
+			dispatch({
 				type: 'POPULATE_MOVIES',
-				movies: ownMovies
+				movies
 			})
 		}
 	}, [])
 
-	const handleAddMovie = movie => {
-		const movieIDs = movieState.map(ownMovie => ownMovie.tmdbID)
-
-		if (movieIDs.includes(movie.tmdbID)) {
-			console.log('Entry already exists in own library!')
-			return
-		}
-
-		movieDispatch({
-			type: 'ADD_OWN_MOVIE',
-			movie
-		})
-	}
-
 	const handleRemoveMovie = movie => {
 		// TODO: check if movie exists
-		movieDispatch({
+		dispatch({
 			type: 'REMOVE_OWN_MOVIE',
 			id: movie.tmdbID
 		})
 	}
 
+	const { loading, movies, errorMessage } = moviesState
+
 	return (
-		<OwnMoviesContext.Provider
-			value={{ handleAddMovie, handleRemoveMovie }}
-		>
+		<OwnMoviesContext.Provider value={{ handleRemoveMovie }}>
 			<h1>Movies Dashboard</h1>
+			<div className="movies">
+				{loading && !errorMessage ? (
+					<span>loading...</span>
+				) : errorMessage ? (
+					<div className="errorMessage">{errorMessage}</div>
+				) : (
+					<MediaCardList ownMovies={movies} />
+				)}
+			</div>
 		</OwnMoviesContext.Provider>
 	)
 }

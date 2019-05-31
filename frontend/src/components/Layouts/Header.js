@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 export default () => {
 	const classes = useStyles()
 	const {
-		search: { loading, errorMessage }
+		searchState: { loading, errorMessage }
 	} = useContext(MediaContext)
 
 	return (

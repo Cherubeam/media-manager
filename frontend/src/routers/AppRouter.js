@@ -12,14 +12,21 @@ import SearchPage from '../components/Search/SearchPage'
 import MoviesDashboard from '../components/MoviesDashboard'
 import SeriesDashboard from '../components/SeriesDashboard'
 import NotFoundPage from '../components/NotFoundPage'
+import database from '../database/database'
 
 // MUI theme
 const theme = lightTheme()
 
-// Initial search state
-const initialState = {
+// Initial states
+const initialSearchState = {
 	loading: true,
 	movies: [],
+	errorMessage: null
+}
+
+const initialMoviesState = {
+	loading: true,
+	movies: database(),
 	errorMessage: null
 }
 
@@ -41,14 +48,16 @@ const useCombinedReducer = useReducers => {
 
 const AppRouter = () => {
 	const [state, dispatch] = useCombinedReducer({
-		search: useReducer(searchReducer, initialState),
-		movie: useReducer(movieReducer, [])
+		searchState: useReducer(searchReducer, initialSearchState),
+		moviesState: useReducer(movieReducer, initialMoviesState)
 	})
-	const { search, movie } = state
+	const { searchState, moviesState } = state
 
 	return (
 		<ThemeProvider theme={theme}>
-			<MediaContext.Provider value={{ search, movie, dispatch }}>
+			<MediaContext.Provider
+				value={{ searchState, moviesState, dispatch }}
+			>
 				<BrowserRouter>
 					<div>
 						<Header />

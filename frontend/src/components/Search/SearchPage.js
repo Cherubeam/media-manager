@@ -20,7 +20,7 @@ const GET_WEEKLY_TRENDING_MOVIES = getWeeklyTrendingMovies
 const GET_MOVIES_BY_NAME = getMoviesByName
 
 export default () => {
-	const { search, movie, dispatch } = useContext(MediaContext)
+	const { searchState, moviesState, dispatch } = useContext(MediaContext)
 
 	useEffect(() => {
 		dispatch({
@@ -46,8 +46,8 @@ export default () => {
 	}, [])
 
 	useEffect(() => {
-		localStorage.setItem('movies', JSON.stringify(movie))
-	}, [movie])
+		localStorage.setItem('movies', JSON.stringify(moviesState.movies))
+	}, [moviesState])
 
 	const searchMovie = searchValue => {
 		dispatch({
@@ -73,17 +73,17 @@ export default () => {
 			})
 	}
 
-	const handleAddMovie = search => {
-		const movieIDs = movie.map(movie => movie.tmdbID)
+	const handleAddMovie = searchState => {
+		const movieIDs = moviesState.movies.map(movie => movie.tmdbID)
 
-		if (movieIDs.includes(search.tmdbID)) {
+		if (movieIDs.includes(searchState.tmdbID)) {
 			console.log('Entry already exists in own library!')
 			return
 		}
 
 		dispatch({
 			type: 'ADD_OWN_MOVIE',
-			movie: search
+			movie: searchState
 		})
 	}
 
@@ -95,7 +95,7 @@ export default () => {
 		})
 	}
 
-	const { movies, errorMessage, loading } = search
+	const { loading, movies, errorMessage } = searchState
 
 	return (
 		<OwnMoviesContext.Provider
