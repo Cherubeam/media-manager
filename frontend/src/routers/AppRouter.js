@@ -12,19 +12,21 @@ import NotFoundPage from '../components/NotFoundPage'
 
 const theme = lightTheme()
 
+console.log('Load AppRouter.js')
+
 // required for react-router-dom < 6.0.0
 // see https://github.com/ReactTraining/react-router/issues/6056#issuecomment-435524678
-const AdapterSearchPage = React.forwardRef((props, ref) => (
-	<SearchPage innerRef={ref} {...props} />
-))
+// const AdapterSearchPage = React.forwardRef((props, ref) => (
+// 	<SearchPage innerRef={ref} {...props} />
+// ))
 
-const AdapterMoviesDashboard = React.forwardRef((props, ref) => (
-	<MoviesDashboard innerRef={ref} {...props} />
-))
+// const AdapterMoviesDashboard = React.forwardRef((props, ref) => (
+// 	<MoviesDashboard innerRef={ref} {...props} />
+// ))
 
-const AdapterSeriesDashboard = React.forwardRef((props, ref) => (
-	<SeriesDashboard innerRef={ref} {...props} />
-))
+// const AdapterSeriesDashboard = React.forwardRef((props, ref) => (
+// 	<SeriesDashboard innerRef={ref} {...props} />
+// ))
 
 const AppRouter = () => (
 	<ThemeProvider theme={theme}>
@@ -33,9 +35,9 @@ const AppRouter = () => (
 				<Header />
 				<CssBaseline />
 				<Switch>
-					<Route exact path="/" component={AdapterSearchPage} />
-					<Route path="/movies" component={AdapterMoviesDashboard} />
-					<Route path="/series" component={AdapterSeriesDashboard} />
+					<Route exact path="/" component={SearchPage} />
+					<Route path="/movies" component={MoviesDashboard} />
+					<Route path="/series" component={SeriesDashboard} />
 				</Switch>
 			</div>
 		</BrowserRouter>

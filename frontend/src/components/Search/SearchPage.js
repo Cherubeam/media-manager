@@ -1,6 +1,5 @@
 import React, { useEffect, useReducer } from 'react'
 import ApolloBoost from 'apollo-boost'
-import { useTheme } from '@material-ui/styles'
 import { makeStyles } from '@material-ui/styles'
 
 import SearchMovieContext from '../../context/SearchMovies'

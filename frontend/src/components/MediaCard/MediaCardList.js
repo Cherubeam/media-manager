@@ -7,6 +7,8 @@ import MediaCard from './MediaCard'
 import SearchMoviesContext from '../../context/SearchMovies'
 import OwnMoviesContext from '../../context/OwnMovies'
 
+console.log('Load MediaCardList.js')
+
 const styles = theme => ({
 	root: {
 		flexGrow: 1
@@ -16,15 +18,15 @@ const styles = theme => ({
 const MediaCardList = props => {
 	const { classes } = props
 	const { movies } = useContext(SearchMoviesContext)
-	const { ownMovies } = useContext(OwnMoviesContext)
+	// const { ownMovies } = useContext(OwnMoviesContext)
 
 	if (movies.data.movieSearch) {
+		console.log(movies.data.movieSearch)
 		return (
-			<div className={classes.root}>
-				<h1>Result</h1>
+			<div>
 				<Grid container spacing={3}>
 					{movies.data.movieSearch.map((movie, index) => (
-						<Grid item className={classes.root} key={item}>
+						<Grid item className={classes.root} key={index}>
 							<MediaCard key={index} movie={movie} />
 						</Grid>
 					))}
