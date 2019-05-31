@@ -1,48 +1,29 @@
-import React, { useEffect, useReducer } from 'react'
+import React, { useContext, useEffect, useReducer } from 'react'
 import ApolloBoost from 'apollo-boost'
 import { makeStyles } from '@material-ui/styles'
 
 import SearchMovieContext from '../../context/SearchMovies'
 import OwnMoviesContext from '../../context/OwnMovies'
-import searchReducer from '../../reducers/search'
-import movieReducer from '../../reducers/movies'
+import MediaContext from '../../context/MediaContext'
 import getWeeklyTrendingMovies from '../../queries/getWeeklyTrendingMovies'
 import getMoviesByName from '../../queries/getMoviesByName'
 import LinearProgess from '../LinearProgress'
 import SearchBar from './SearchBar'
 import MediaCardList from '../MediaCard/MediaCardList'
 
-const useStyles = makeStyles({
-	root: {
-		background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)'
-	}
-})
-
 const client = new ApolloBoost({
 	uri: 'http://localhost:5000'
 })
 
-// setup initial search state
-const initialState = {
-	loading: true,
-	movies: [],
-	errorMessage: null
-}
-
-// load in GraphQL queries
+// Load in GraphQL queries
 const GET_WEEKLY_TRENDING_MOVIES = getWeeklyTrendingMovies
 const GET_MOVIES_BY_NAME = getMoviesByName
 
 export default () => {
-	const classes = useStyles()
-	const [searchState, searchDispatch] = useReducer(
-		searchReducer,
-		initialState
-	)
-	const [movieState, movieDispatch] = useReducer(movieReducer, [])
+	const { search, movie, dispatch } = useContext(MediaContext)
 
 	useEffect(() => {
-		searchDispatch({
+		dispatch({
 			type: 'SEARCH_MOVIES_REQUEST'
 		})
 
@@ -51,13 +32,13 @@ export default () => {
 				query: GET_WEEKLY_TRENDING_MOVIES
 			})
 			.then(result => {
-				searchDispatch({
+				dispatch({
 					type: 'SEARCH_MOVIES_SUCCESS',
 					payload: result
 				})
 			})
 			.catch(e => {
-				searchDispatch({
+				dispatch({
 					type: 'SEARCH_MOVIES_FAILURE',
 					error: e
 				})
@@ -65,22 +46,11 @@ export default () => {
 	}, [])
 
 	useEffect(() => {
-		const ownMovies = JSON.parse(localStorage.getItem('movies'))
-
-		if (ownMovies) {
-			movieDispatch({
-				type: 'POPULATE_MOVIES',
-				movies: ownMovies
-			})
-		}
-	}, [])
-
-	useEffect(() => {
-		localStorage.setItem('movies', JSON.stringify(movieState))
-	}, [movieState])
+		localStorage.setItem('movies', JSON.stringify(movie))
+	}, [movie])
 
 	const searchMovie = searchValue => {
-		searchDispatch({
+		dispatch({
 			type: 'SEARCH_MOVIES_REQUEST'
 		})
 
@@ -90,61 +60,57 @@ export default () => {
 				variables: { query: searchValue }
 			})
 			.then(result => {
-				searchDispatch({
+				dispatch({
 					type: 'SEARCH_MOVIES_SUCCESS',
 					payload: result
 				})
 			})
 			.catch(e => {
-				searchDispatch({
+				dispatch({
 					type: 'SEARCH_MOVIES_FAILURE',
 					error: e
 				})
 			})
 	}
 
-	const handleAddMovie = movie => {
-		const movieIDs = movieState.map(ownMovie => ownMovie.tmdbID)
+	const handleAddMovie = search => {
+		const movieIDs = movie.map(movie => movie.tmdbID)
 
-		if (movieIDs.includes(movie.tmdbID)) {
+		if (movieIDs.includes(search.tmdbID)) {
 			console.log('Entry already exists in own library!')
 			return
 		}
 
-		movieDispatch({
+		dispatch({
 			type: 'ADD_OWN_MOVIE',
-			movie
+			movie: search
 		})
 	}
 
 	const handleRemoveMovie = movie => {
 		// TODO: check if movie exists
-		movieDispatch({
+		dispatch({
 			type: 'REMOVE_OWN_MOVIE',
 			id: movie.tmdbID
 		})
 	}
 
-	const { movies, errorMessage, loading } = searchState
+	const { movies, errorMessage, loading } = search
 
 	return (
-		<SearchMovieContext.Provider value={{ movies }}>
-			<OwnMoviesContext.Provider
-				value={{ handleAddMovie, handleRemoveMovie }}
-			>
-				{loading && !errorMessage && <LinearProgess />}
-				{console.log(loading)}
-				<SearchBar searchMovie={searchMovie} />
-				<div className="movies">
-					{loading && !errorMessage ? (
-						<span>loading...</span>
-					) : errorMessage ? (
-						<div className="errorMessage">{errorMessage}</div>
-					) : (
-						<MediaCardList />
-					)}
-				</div>
-			</OwnMoviesContext.Provider>
-		</SearchMovieContext.Provider>
+		<OwnMoviesContext.Provider
+			value={{ handleAddMovie, handleRemoveMovie }}
+		>
+			<SearchBar searchMovie={searchMovie} />
+			<div className="movies">
+				{loading && !errorMessage ? (
+					<span>loading...</span>
+				) : errorMessage ? (
+					<div className="errorMessage">{errorMessage}</div>
+				) : (
+					<MediaCardList movies={movies} />
+				)}
+			</div>
+		</OwnMoviesContext.Provider>
 	)
 }

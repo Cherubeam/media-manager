@@ -22,15 +22,15 @@ const useStyles = makeStyles(theme => ({
 	media: {
 		height: 513,
 		width: 342
-	},
-	fabButton: {
-		position: 'relative',
-		zIndex: 1,
-		top: -70,
-		left: -110,
-		right: 0,
-		margin: '0 auto'
 	}
+	// fabButton: {
+	// 	position: 'relative',
+	// 	zIndex: 1,
+	// 	top: -70,
+	// 	left: -110,
+	// 	right: 0,
+	// 	margin: '0 auto'
+	// }
 }))
 
 // TODO: implementation, when user clicks on MediaCard
@@ -56,7 +56,6 @@ export default ({ movie }) => {
 			<CardActions disableSpacing>
 				<Fab
 					onClick={() => handleAddMovie(movie)}
-					className={classes.fabButton}
 					color="primary"
 					size="medium"
 					aria-label="Add to movie library"

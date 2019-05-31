@@ -1,47 +1,70 @@
-import React from 'react'
+import React, { useReducer } from 'react'
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom'
 import { ThemeProvider } from '@material-ui/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import lightTheme from '../themes/lightTheme'
 
+import movieReducer from '../reducers/movies'
+import searchReducer from '../reducers/search'
+import MediaContext from '../context/MediaContext'
 import Header from '../components/Layouts/Header'
 import SearchPage from '../components/Search/SearchPage'
 import MoviesDashboard from '../components/MoviesDashboard'
 import SeriesDashboard from '../components/SeriesDashboard'
 import NotFoundPage from '../components/NotFoundPage'
 
+// MUI theme
 const theme = lightTheme()
 
-console.log('Load AppRouter.js')
+// Initial search state
+const initialState = {
+	loading: true,
+	movies: [],
+	errorMessage: null
+}
 
-// required for react-router-dom < 6.0.0
-// see https://github.com/ReactTraining/react-router/issues/6056#issuecomment-435524678
-// const AdapterSearchPage = React.forwardRef((props, ref) => (
-// 	<SearchPage innerRef={ref} {...props} />
-// ))
+const useCombinedReducer = useReducers => {
+	// Global state
+	const state = Object.keys(useReducers).reduce(
+		(acc, key) => ({ ...acc, [key]: useReducers[key][0] }),
+		{}
+	)
 
-// const AdapterMoviesDashboard = React.forwardRef((props, ref) => (
-// 	<MoviesDashboard innerRef={ref} {...props} />
-// ))
+	// Global dispatch function
+	const dispatch = action =>
+		Object.keys(useReducers)
+			.map(key => useReducers[key][1])
+			.forEach(fn => fn(action))
 
-// const AdapterSeriesDashboard = React.forwardRef((props, ref) => (
-// 	<SeriesDashboard innerRef={ref} {...props} />
-// ))
+	return [state, dispatch]
+}
 
-const AppRouter = () => (
-	<ThemeProvider theme={theme}>
-		<BrowserRouter>
-			<div>
-				<Header />
-				<CssBaseline />
-				<Switch>
-					<Route exact path="/" component={SearchPage} />
-					<Route path="/movies" component={MoviesDashboard} />
-					<Route path="/series" component={SeriesDashboard} />
-				</Switch>
-			</div>
-		</BrowserRouter>
-	</ThemeProvider>
-)
+const AppRouter = () => {
+	const [state, dispatch] = useCombinedReducer({
+		search: useReducer(searchReducer, initialState),
+		movie: useReducer(movieReducer, [])
+	})
+	const { search, movie } = state
+
+	return (
+		<ThemeProvider theme={theme}>
+			<MediaContext.Provider value={{ search, movie, dispatch }}>
+				<BrowserRouter>
+					<div>
+						<Header />
+						<CssBaseline />
+						<Switch>
+							<Route exact path="/" component={SearchPage} />
+							<Route path="/movies" component={MoviesDashboard} />
+							<Route path="/series" component={SeriesDashboard} />
+						</Switch>
+					</div>
+				</BrowserRouter>
+			</MediaContext.Provider>
+		</ThemeProvider>
+	)
+}
+
+console.log('AppRouter.js loaded!')
 
 export default AppRouter

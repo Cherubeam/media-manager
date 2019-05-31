@@ -4,8 +4,6 @@ import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 
 import MediaCard from './MediaCard'
-import SearchMoviesContext from '../../context/SearchMovies'
-import OwnMoviesContext from '../../context/OwnMovies'
 
 console.log('Load MediaCardList.js')
 
@@ -15,13 +13,8 @@ const styles = theme => ({
 	}
 })
 
-const MediaCardList = props => {
-	const { classes } = props
-	const { movies } = useContext(SearchMoviesContext)
-	// const { ownMovies } = useContext(OwnMoviesContext)
-
+const MediaCardList = ({ classes, movies }) => {
 	if (movies.data.movieSearch) {
-		console.log(movies.data.movieSearch)
 		return (
 			<div>
 				<Grid container spacing={3}>

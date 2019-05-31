@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { AppBar, Toolbar, Typography, Button } from '@material-ui/core'
+
+import MediaContext from '../../context/MediaContext'
 import TabBar from '../Navigation/TabBar'
+import LinearProgress from '../LinearProgress'
 
 const useStyles = makeStyles({
 	root: {
@@ -14,9 +17,13 @@ const useStyles = makeStyles({
 
 export default () => {
 	const classes = useStyles()
+	const {
+		search: { loading, errorMessage }
+	} = useContext(MediaContext)
 
 	return (
 		<div className={classes.root}>
+			{loading && !errorMessage && <LinearProgress />}
 			<AppBar position="static">
 				<Toolbar>
 					<Typography
