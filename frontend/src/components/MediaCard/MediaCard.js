@@ -1,33 +1,37 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import {
 	Card,
 	CardActionArea,
 	CardActions,
-	CardContent,
 	CardMedia,
-	Button
+	Fab
 } from '@material-ui/core'
-import IconButton from '@material-ui/core/IconButton'
-import AddIcon from '@material-ui/icons/Add'
+import { Add, Remove } from '@material-ui/icons'
+
 import getMovieDetails from '../../queries/getMovieDetails'
 import OwnMoviesContext from '../../context/OwnMovies'
 import DefaultImage from '../../../public/images/movie-default.png'
 
 const defaultMoviePoster = DefaultImage
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
 	card: {
 		maxWidth: 342
-	},
-	icon: {
-		fontSize: 32
 	},
 	media: {
 		height: 513,
 		width: 342
+	},
+	fabButton: {
+		position: 'relative',
+		zIndex: 1,
+		top: -70,
+		left: -110,
+		right: 0,
+		margin: '0 auto'
 	}
-})
+}))
 
 // TODO: implementation, when user clicks on MediaCard
 const GET_MOVIE_DETAILS = getMovieDetails
@@ -48,18 +52,25 @@ export default ({ movie }) => {
 					}
 					title={movie.title}
 				/>
-				<CardContent />
 			</CardActionArea>
-			<CardActions>
-				<IconButton
+			<CardActions disableSpacing>
+				<Fab
 					onClick={() => handleAddMovie(movie)}
+					className={classes.fabButton}
+					color="primary"
+					size="medium"
 					aria-label="Add to movie library"
 				>
-					<AddIcon />
-				</IconButton>
-				<Button size="small" onClick={() => handleRemoveMovie(movie)}>
-					REMOVE
-				</Button>
+					<Add />
+				</Fab>
+				<Fab
+					onClick={() => handleRemoveMovie(movie)}
+					color="secondary"
+					size="medium"
+					aria-label="Remove from movie library"
+				>
+					<Remove />
+				</Fab>
 			</CardActions>
 		</Card>
 	)

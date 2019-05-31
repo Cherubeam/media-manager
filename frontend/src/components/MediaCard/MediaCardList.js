@@ -16,7 +16,7 @@ const styles = theme => ({
 const MediaCardList = props => {
 	const { classes } = props
 	const { movies } = useContext(SearchMoviesContext)
-	// const { ownMovies } = useContext(OwnMoviesContext)
+	const { ownMovies } = useContext(OwnMoviesContext)
 
 	if (movies.data.movieSearch) {
 		return (
@@ -43,20 +43,19 @@ const MediaCardList = props => {
 				</Grid>
 			</div>
 		)
+	} else if (ownMovies) {
+		return (
+			<div>
+				<Grid container spacing={3}>
+					{ownMovies.map((movie, index) => (
+						<Grid item className={classes.root} key={index}>
+							<MediaCard key={index} movie={movie} />
+						</Grid>
+					))}
+				</Grid>
+			</div>
+		)
 	}
-	// else if (ownMovies) {
-	// 	return (
-	// 		<div>
-	// 			<Grid container spacing={3}>
-	// 				{ownMovies.map((movie, index) => (
-	// 					<Grid item className={classes.root} key={index}>
-	// 						<MediaCard key={index} movie={movie} />
-	// 					</Grid>
-	// 				))}
-	// 			</Grid>
-	// 		</div>
-	// 	)
-	// }
 }
 
 MediaCardList.propTypes = {

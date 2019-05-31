@@ -44,6 +44,8 @@ export default () => {
 	return (
 		<OwnMoviesContext.Provider
 			value={{ handleAddMovie, handleRemoveMovie }}
-		/>
+		>
+			<h1>Movies Dashboard</h1>
+		</OwnMoviesContext.Provider>
 	)
 }

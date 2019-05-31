@@ -134,6 +134,7 @@ export default () => {
 				value={{ handleAddMovie, handleRemoveMovie }}
 			>
 				{loading && !errorMessage && <LinearProgess />}
+				{console.log(loading)}
 				<SearchBar searchMovie={searchMovie} />
 				<div className="movies">
 					{loading && !errorMessage ? (

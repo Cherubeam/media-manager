@@ -2,17 +2,15 @@ import React from 'react'
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom'
 import { ThemeProvider } from '@material-ui/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import lightTheme from '../themes/lightTheme'
 
 import Header from '../components/Layouts/Header'
-import TabBar from '../components/Navigation/TabBar'
 import SearchPage from '../components/Search/SearchPage'
 import MoviesDashboard from '../components/MoviesDashboard'
 import SeriesDashboard from '../components/SeriesDashboard'
 import NotFoundPage from '../components/NotFoundPage'
 
-const theme = {
-	background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)'
-}
+const theme = lightTheme()
 
 // required for react-router-dom < 6.0.0
 // see https://github.com/ReactTraining/react-router/issues/6056#issuecomment-435524678
@@ -29,7 +27,7 @@ const AdapterSeriesDashboard = React.forwardRef((props, ref) => (
 ))
 
 const AppRouter = () => (
-	<ThemeProvider>
+	<ThemeProvider theme={theme}>
 		<BrowserRouter>
 			<div>
 				<Header />
@@ -44,4 +42,4 @@ const AppRouter = () => (
 	</ThemeProvider>
 )
 
-export { AdapterSearchPage, AdapterMoviesDashboard, AppRouter as default }
+export default AppRouter
