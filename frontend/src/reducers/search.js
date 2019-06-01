@@ -23,4 +23,4 @@ const searchReducer = (state, action) => {
 	}
 }
 
-export { searchReducer as default }
+export default searchReducer

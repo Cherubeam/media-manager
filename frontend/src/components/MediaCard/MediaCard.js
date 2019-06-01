@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import {
 	Card,
@@ -9,7 +10,7 @@ import {
 } from '@material-ui/core'
 import { Add, Remove } from '@material-ui/icons'
 
-import getMovieDetails from '../../queries/getMovieDetails'
+// import getMovieDetails from '../../queries/getMovieDetails'
 import OwnMoviesContext from '../../context/OwnMovies'
 import DefaultImage from '../../../public/images/movie-default.png'
 
@@ -34,9 +35,9 @@ const useStyles = makeStyles(theme => ({
 }))
 
 // TODO: implementation, when user clicks on MediaCard
-const GET_MOVIE_DETAILS = getMovieDetails
+// const GET_MOVIE_DETAILS = getMovieDetails
 
-export default ({ movie }) => {
+const MediaCard = ({ movie }) => {
 	const { handleAddMovie, handleRemoveMovie } = useContext(OwnMoviesContext)
 	const classes = useStyles()
 
@@ -74,3 +75,9 @@ export default ({ movie }) => {
 		</Card>
 	)
 }
+
+MediaCard.propTypes = {
+	movie: PropTypes.object.isRequired
+}
+
+export default MediaCard

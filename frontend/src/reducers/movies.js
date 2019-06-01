@@ -6,12 +6,6 @@ const moviesReducer = (state, action) => {
 				loading: false,
 				movies: action.movies
 			}
-		case 'GET_WEEKLY_TRENDING_MOVIES':
-			return action.movies
-		case 'GET_MOVIES_BY_NAME':
-			return action.movies
-		case 'GET_MOVIE_BY_ID':
-			return action.movies
 		case 'ADD_OWN_MOVIE':
 			return {
 				...state,
@@ -27,4 +21,4 @@ const moviesReducer = (state, action) => {
 	}
 }
 
-export { moviesReducer as default }
+export default moviesReducer

@@ -1,13 +1,10 @@
-import React, { useContext, useEffect, useReducer } from 'react'
+import React, { useContext, useEffect } from 'react'
 import ApolloBoost from 'apollo-boost'
-import { makeStyles } from '@material-ui/styles'
 
-import SearchMovieContext from '../../context/SearchMovies'
 import OwnMoviesContext from '../../context/OwnMovies'
 import MediaContext from '../../context/MediaContext'
 import getWeeklyTrendingMovies from '../../queries/getWeeklyTrendingMovies'
 import getMoviesByName from '../../queries/getMoviesByName'
-import LinearProgess from '../LinearProgress'
 import SearchBar from './SearchBar'
 import MediaCardList from '../MediaCard/MediaCardList'
 
@@ -37,10 +34,10 @@ export default () => {
 					payload: result
 				})
 			})
-			.catch(e => {
+			.catch(error => {
 				dispatch({
 					type: 'SEARCH_MOVIES_FAILURE',
-					error: e
+					error
 				})
 			})
 	}, [])
@@ -65,25 +62,26 @@ export default () => {
 					payload: result
 				})
 			})
-			.catch(e => {
+			.catch(error => {
 				dispatch({
 					type: 'SEARCH_MOVIES_FAILURE',
-					error: e
+					error
 				})
 			})
 	}
 
-	const handleAddMovie = searchState => {
+	const handleAddMovie = selectedMovie => {
 		const movieIDs = moviesState.movies.map(movie => movie.tmdbID)
 
-		if (movieIDs.includes(searchState.tmdbID)) {
+		if (movieIDs.includes(selectedMovie.tmdbID)) {
+			// TODO: add notification or similar to the application and remove console.log()
 			console.log('Entry already exists in own library!')
 			return
 		}
 
 		dispatch({
 			type: 'ADD_OWN_MOVIE',
-			movie: searchState
+			movie: selectedMovie
 		})
 	}
 
@@ -101,6 +99,7 @@ export default () => {
 		<OwnMoviesContext.Provider
 			value={{ handleAddMovie, handleRemoveMovie }}
 		>
+			<h1>Trending Movies</h1>
 			<SearchBar searchMovie={searchMovie} />
 			<div className="movies">
 				{loading && !errorMessage ? (

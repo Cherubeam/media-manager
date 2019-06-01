@@ -1,18 +1,18 @@
 import React, { useReducer } from 'react'
-import { BrowserRouter, Route, Switch, Link } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { ThemeProvider } from '@material-ui/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import lightTheme from '../themes/lightTheme'
 
-import movieReducer from '../reducers/movies'
 import searchReducer from '../reducers/search'
+import moviesReducer from '../reducers/movies'
+import seriesReducer from '../reducers/series'
 import MediaContext from '../context/MediaContext'
 import Header from '../components/Layouts/Header'
 import SearchPage from '../components/Search/SearchPage'
 import MoviesDashboard from '../components/MoviesDashboard'
 import SeriesDashboard from '../components/SeriesDashboard'
-import NotFoundPage from '../components/NotFoundPage'
-import database from '../database/database'
+import moviesDatabase from '../database/moviesDatabase'
 
 // MUI theme
 const theme = lightTheme()
@@ -26,7 +26,13 @@ const initialSearchState = {
 
 const initialMoviesState = {
 	loading: true,
-	movies: database(),
+	movies: moviesDatabase(),
+	errorMessage: null
+}
+
+const initialSeriesState = {
+	loading: true,
+	series: [],
 	errorMessage: null
 }
 
@@ -49,14 +55,15 @@ const useCombinedReducer = useReducers => {
 const AppRouter = () => {
 	const [state, dispatch] = useCombinedReducer({
 		searchState: useReducer(searchReducer, initialSearchState),
-		moviesState: useReducer(movieReducer, initialMoviesState)
+		moviesState: useReducer(moviesReducer, initialMoviesState),
+		seriesState: useReducer(seriesReducer, initialSeriesState)
 	})
-	const { searchState, moviesState } = state
+	const { searchState, moviesState, seriesState } = state
 
 	return (
 		<ThemeProvider theme={theme}>
 			<MediaContext.Provider
-				value={{ searchState, moviesState, dispatch }}
+				value={{ searchState, moviesState, seriesState, dispatch }}
 			>
 				<BrowserRouter>
 					<div>

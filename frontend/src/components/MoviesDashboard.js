@@ -1,9 +1,7 @@
 import React, { useContext, useEffect } from 'react'
-import ApolloBoost from 'apollo-boost'
 
 import MediaContext from '../context/MediaContext'
 import OwnMoviesContext from '../context/OwnMovies'
-import moviesReducer from '../reducers/movies'
 import MediaCardList from './MediaCard/MediaCardList'
 
 export default () => {
@@ -32,7 +30,7 @@ export default () => {
 
 	return (
 		<OwnMoviesContext.Provider value={{ handleRemoveMovie }}>
-			<h1>Movies Dashboard</h1>
+			<h1>My Movies</h1>
 			<div className="movies">
 				{loading && !errorMessage ? (
 					<span>loading...</span>
