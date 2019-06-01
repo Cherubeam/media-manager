@@ -173,6 +173,50 @@ const Query = {
                 }
             })
         })
+    },
+    seriesTrendingWeekly(parent, args, ctx, info) {
+        return new Promise((resolve, reject) => {
+            request({
+                method: 'GET',
+                url: `https://api.themoviedb.org/3/trending/tv/week?api_key=${process.env.TMDB_API_KEY}&language=${language}&region=${region}`,
+                json: true
+            }, (error, response, body) => {
+                if (error) {
+                    reject(new Error(JSON.stringify({
+                        errorCode: error.code,
+                        host: error.host,
+                        port: error.port,
+                        message: `Error: ${error.code} | Host: ${error.host} | Port: ${error.port} -> Please check the API-URL.`
+                    }, undefined, 2)))
+                } else if (response.statusCode === 401) {
+                    reject(new Error(JSON.stringify({
+                        statusCode: response.statusCode,
+                        statusMessage: response.body.status_message
+                    }, undefined, 2)))
+                } else if (response.statusCode === 404) {
+                    reject(new Error(JSON.stringify({
+                        statusCode: response.statusCode,
+                        statusMessage: response.body.status_message
+                    }, undefined, 2)))
+                } else if (response.statusCode === 200) {
+                    const payload = []
+                    body.results.forEach((series) => {
+                        payload.push({
+                            tmdbID: series.id,
+                            originalName: series.original_name,
+                            germanName: series.name,
+                            firstAirDate: series.first_air_date,
+                            description: series.overview,
+                            tmdbVoteAverage: series.vote_average,
+                            tmdbVoteCount: series.vote_count,
+                            popularity: series.popularity || null,
+                            poster: `https://image.tmdb.org/t/p/w342/${series.poster_path}`
+                        })
+                    })
+                    resolve(payload)
+                }
+            })
+        })
     }
 }
 

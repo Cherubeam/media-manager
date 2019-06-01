@@ -1,69 +1,82 @@
 type Query {
-    movieSearch(query: String!): [MovieSearch!]!
-    movieDetails(id: ID!): MovieDetails!
-    movieCredits(id: ID!): MovieCredits!
-    movieTrendingWeekly: [MovieTrendingWeekly!]!
+	movieSearch(query: String!): [MovieSearch!]!
+	movieDetails(id: ID!): MovieDetails!
+	movieCredits(id: ID!): MovieCredits!
+	movieTrendingWeekly: [MovieTrendingWeekly!]!
+	seriesTrendingWeekly: [SeriesTrendingWeekly!]!
 }
 
 type MovieSearch {
-    tmdbID: ID!
-    originalTitle: String!
-    germanTitle: String!
-    releaseDate: String!
-    description: String!
-    tmdbVoteAverage: Float!
-    tmdbVoteCount: Int!
-    poster: String!
+	tmdbID: ID!
+	originalTitle: String!
+	germanTitle: String!
+	releaseDate: String!
+	description: String!
+	tmdbVoteAverage: Float!
+	tmdbVoteCount: Int!
+	poster: String!
 }
 
 type MovieDetails {
-    tmdbID: ID!
-    imdbID: ID!
-    originalTitle: String!
-    germanTitle: String!
-    releaseDate: String!
-    description: String!
-    runtime: Int!
-    tmdbVoteAverage: Float!
-    tmdbVoteCount: Int!
-    poster: String!
-    videos: [Video]!
+	tmdbID: ID!
+	imdbID: ID!
+	originalTitle: String!
+	germanTitle: String!
+	releaseDate: String!
+	description: String!
+	runtime: Int!
+	tmdbVoteAverage: Float!
+	tmdbVoteCount: Int!
+	poster: String!
+	videos: [Video]!
 }
 
 type MovieCredits {
-    cast: [Cast!]!
+	cast: [Cast!]!
 }
 
 type MovieTrendingWeekly {
-    tmdbID: ID!
-    originalTitle: String!
-    germanTitle: String!
-    releaseDate: String!
-    description: String!
-    tmdbVoteAverage: Float!
-    tmdbVoteCount: Int!
-    popularity: Float!
-    poster: String!
+	tmdbID: ID!
+	originalTitle: String!
+	germanTitle: String!
+	releaseDate: String!
+	description: String!
+	tmdbVoteAverage: Float!
+	tmdbVoteCount: Int!
+	popularity: Float!
+	poster: String!
+}
+
+type SeriesTrendingWeekly {
+	tmdbID: ID!
+	originalName: String!
+	germanName: String!
+	firstAirDate: String!
+	description: String!
+	tmdbVoteAverage: Float!
+	tmdbVoteCount: Int!
+	popularity: Float!
+	poster: String!
 }
 
 type Cast {
-    cast_id: ID!
-    character: String!
-    credit_id: ID!
-    gender: Int!
-    id: ID!
-    name: String!
-    order: Int!
-    profile_path: String!
+	cast_id: ID!
+	character: String!
+	credit_id: ID!
+	gender: Int!
+	id: ID!
+	name: String!
+	order: Int!
+	profile_path: String!
 }
 
 type Video {
-    id: ID!
-    iso_639_1: String!
-    iso_3166_1: String!
-    key: String!
-    name: String!
-    site: String!
-    size: Int!
-    type: String!
+	id: ID!
+	iso_639_1: String!
+	iso_3166_1: String!
+	key: String!
+	name: String!
+	site: String!
+	size: Int!
+	type: String!
 }
