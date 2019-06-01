@@ -10,8 +10,6 @@ import {
 } from '@material-ui/core'
 import { Add, Remove } from '@material-ui/icons'
 
-// import getMovieDetails from '../../queries/getMovieDetails'
-// import OwnMoviesContext from '../../context/OwnMovies'
 import MediaContext from '../../context/MediaContext'
 import DefaultImage from '../../../public/images/movie-default.png'
 
@@ -38,12 +36,12 @@ const useStyles = makeStyles(theme => ({
 // TODO: implementation, when user clicks on MediaCard
 // const GET_MOVIE_DETAILS = getMovieDetails
 
-const MediaCard = ({ media, flag }) => {
+const MediaCard = ({ media, mediaType }) => {
 	const { moviesState, seriesState, dispatch } = useContext(MediaContext)
 	const classes = useStyles()
 
-	const handleAddMedia = (selectedMedia, mediaFlag) => {
-		if (mediaFlag === 'movie') {
+	const handleAddMedia = (selectedMedia, type) => {
+		if (type === 'movie') {
 			const movieIDs = moviesState.movies.map(movie => movie.tmdbID)
 
 			if (movieIDs.includes(selectedMedia.tmdbID)) {
@@ -56,7 +54,7 @@ const MediaCard = ({ media, flag }) => {
 				type: 'ADD_OWN_MOVIE',
 				movie: selectedMedia
 			})
-		} else if (mediaFlag === 'series') {
+		} else if (type === 'series') {
 			const seriesIDs = seriesState.series.map(series => series.tmdbID)
 
 			if (seriesIDs.includes(selectedMedia.tmdbID)) {
@@ -72,12 +70,20 @@ const MediaCard = ({ media, flag }) => {
 		}
 	}
 
-	const handleRemoveMedia = movie => {
-		// TODO: check if movie exists
-		dispatch({
-			type: 'REMOVE_OWN_MOVIE',
-			id: movie.tmdbID
-		})
+	const handleRemoveMedia = (selectedMedia, type) => {
+		if (type === 'movie') {
+			// TODO: check if movie exists
+			dispatch({
+				type: 'REMOVE_OWN_MOVIE',
+				id: selectedMedia.tmdbID
+			})
+		} else if (type === 'series') {
+			// TODO: check if series exists
+			dispatch({
+				type: 'REMOVE_OWN_SERIES',
+				id: selectedMedia.tmdbID
+			})
+		}
 	}
 
 	return (
@@ -95,7 +101,7 @@ const MediaCard = ({ media, flag }) => {
 			</CardActionArea>
 			<CardActions disableSpacing>
 				<Fab
-					onClick={() => handleAddMedia(media, flag)}
+					onClick={() => handleAddMedia(media, mediaType)}
 					color="primary"
 					size="medium"
 					aria-label="Add to movie library"
@@ -103,7 +109,7 @@ const MediaCard = ({ media, flag }) => {
 					<Add />
 				</Fab>
 				<Fab
-					onClick={() => handleRemoveMedia(media, flag)}
+					onClick={() => handleRemoveMedia(media, mediaType)}
 					color="secondary"
 					size="medium"
 					aria-label="Remove from movie library"
@@ -117,7 +123,7 @@ const MediaCard = ({ media, flag }) => {
 
 MediaCard.propTypes = {
 	media: PropTypes.object.isRequired,
-	flag: PropTypes.string.isRequired
+	mediaType: PropTypes.string.isRequired
 }
 
 export default MediaCard

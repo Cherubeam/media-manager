@@ -26,7 +26,7 @@ const MediaCardList = ({ classes, movies, ownMovies, ownSeries }) => {
 								<MediaCard
 									key={movie.tmdbID}
 									media={movie}
-									flag="movie"
+									mediaType="movie"
 								/>
 							</Grid>
 						))}
@@ -47,7 +47,7 @@ const MediaCardList = ({ classes, movies, ownMovies, ownSeries }) => {
 								<MediaCard
 									key={movie.tmdbID}
 									media={movie}
-									flag="movie"
+									mediaType="movie"
 								/>
 							</Grid>
 						))}
@@ -64,7 +64,7 @@ const MediaCardList = ({ classes, movies, ownMovies, ownSeries }) => {
 							<MediaCard
 								key={movie.tmdbID}
 								media={movie}
-								flag="movie"
+								mediaType="movie"
 							/>
 						</Grid>
 					))}
@@ -81,7 +81,7 @@ const MediaCardList = ({ classes, movies, ownMovies, ownSeries }) => {
 							<MediaCard
 								key={series.tmdbID}
 								media={series}
-								flag="series"
+								mediaType="series"
 							/>
 						</Grid>
 					))}

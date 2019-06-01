@@ -1,7 +1,6 @@
-import React, { useContext, useEffect } from 'react'
+import React, { Fragment, useContext, useEffect } from 'react'
 
 import MediaContext from '../context/MediaContext'
-import OwnSeriesContext from '../context/OwnSeries'
 import MediaCardList from './MediaCard/MediaCardList'
 
 export default () => {
@@ -18,18 +17,14 @@ export default () => {
 		}
 	}, [])
 
-	const handleRemoveSeries = series => {
-		// TODO: check if series exists
-		dispatch({
-			type: 'REMOVE_OWN_SERIES',
-			id: series.tmdbID
-		})
-	}
+	useEffect(() => {
+		localStorage.setItem('series', JSON.stringify(seriesState.series))
+	}, [seriesState])
 
 	const { loading, series, errorMessage } = seriesState
 
 	return (
-		<OwnSeriesContext.Provider value={{ handleRemoveSeries }}>
+		<Fragment>
 			<h1>My Series</h1>
 			<div className="series">
 				{loading && !errorMessage ? (
@@ -40,6 +35,6 @@ export default () => {
 					<MediaCardList ownSeries={series} />
 				)}
 			</div>
-		</OwnSeriesContext.Provider>
+		</Fragment>
 	)
 }

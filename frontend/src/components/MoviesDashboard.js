@@ -1,7 +1,6 @@
-import React, { useContext, useEffect } from 'react'
+import React, { Fragment, useContext, useEffect } from 'react'
 
 import MediaContext from '../context/MediaContext'
-import OwnMoviesContext from '../context/OwnMovies'
 import MediaCardList from './MediaCard/MediaCardList'
 
 export default () => {
@@ -18,18 +17,14 @@ export default () => {
 		}
 	}, [])
 
-	const handleRemoveMovie = movie => {
-		// TODO: check if movie exists
-		dispatch({
-			type: 'REMOVE_OWN_MOVIE',
-			id: movie.tmdbID
-		})
-	}
+	useEffect(() => {
+		localStorage.setItem('movies', JSON.stringify(moviesState.movies))
+	}, [moviesState])
 
 	const { loading, movies, errorMessage } = moviesState
 
 	return (
-		<OwnMoviesContext.Provider value={{ handleRemoveMovie }}>
+		<Fragment>
 			<h1>My Movies</h1>
 			<div className="movies">
 				{loading && !errorMessage ? (
@@ -40,6 +35,6 @@ export default () => {
 					<MediaCardList ownMovies={movies} />
 				)}
 			</div>
-		</OwnMoviesContext.Provider>
+		</Fragment>
 	)
 }

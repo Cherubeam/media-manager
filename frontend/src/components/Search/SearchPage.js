@@ -1,13 +1,13 @@
-import React, { useContext, useEffect } from 'react'
+import React, { Fragment, useContext, useEffect } from 'react'
 import ApolloBoost from 'apollo-boost'
 
-import OwnMoviesContext from '../../context/OwnMovies'
 import MediaContext from '../../context/MediaContext'
 import getWeeklyTrendingMovies from '../../queries/getWeeklyTrendingMovies'
 import getMoviesByName from '../../queries/getMoviesByName'
 import SearchBar from './SearchBar'
 import MediaCardList from '../MediaCard/MediaCardList'
 
+// Create Apollo client
 const client = new ApolloBoost({
 	uri: 'http://localhost:5000'
 })
@@ -46,8 +46,11 @@ export default () => {
 
 	useEffect(() => {
 		localStorage.setItem('movies', JSON.stringify(moviesState.movies))
-		localStorage.setItem('series', JSON.stringify(seriesState.series))
 	}, [moviesState])
+
+	useEffect(() => {
+		localStorage.setItem('series', JSON.stringify(seriesState.series))
+	}, [seriesState])
 
 	const searchMovie = searchValue => {
 		dispatch({
@@ -73,35 +76,10 @@ export default () => {
 			})
 	}
 
-	const handleAddMovie = selectedMovie => {
-		const movieIDs = moviesState.movies.map(movie => movie.tmdbID)
-
-		if (movieIDs.includes(selectedMovie.tmdbID)) {
-			// TODO: add notification or similar to the application and remove console.log()
-			console.log('Entry already exists in own library!')
-			return
-		}
-
-		dispatch({
-			type: 'ADD_OWN_MOVIE',
-			movie: selectedMovie
-		})
-	}
-
-	const handleRemoveMovie = movie => {
-		// TODO: check if movie exists
-		dispatch({
-			type: 'REMOVE_OWN_MOVIE',
-			id: movie.tmdbID
-		})
-	}
-
 	const { loading, movies, errorMessage } = searchState
 
 	return (
-		<OwnMoviesContext.Provider
-			value={{ handleAddMovie, handleRemoveMovie }}
-		>
+		<Fragment>
 			<h1>Trending Movies</h1>
 			<SearchBar searchMovie={searchMovie} />
 			<div className="movies">
@@ -113,6 +91,6 @@ export default () => {
 					<MediaCardList movies={movies} />
 				)}
 			</div>
-		</OwnMoviesContext.Provider>
+		</Fragment>
 	)
 }
