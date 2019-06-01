@@ -11,7 +11,8 @@ import {
 import { Add, Remove } from '@material-ui/icons'
 
 // import getMovieDetails from '../../queries/getMovieDetails'
-import OwnMoviesContext from '../../context/OwnMovies'
+// import OwnMoviesContext from '../../context/OwnMovies'
+import MediaContext from '../../context/MediaContext'
 import DefaultImage from '../../../public/images/movie-default.png'
 
 const defaultMoviePoster = DefaultImage
@@ -37,9 +38,47 @@ const useStyles = makeStyles(theme => ({
 // TODO: implementation, when user clicks on MediaCard
 // const GET_MOVIE_DETAILS = getMovieDetails
 
-const MediaCard = ({ media }) => {
-	const { handleAddMovie, handleRemoveMovie } = useContext(OwnMoviesContext)
+const MediaCard = ({ media, flag }) => {
+	const { moviesState, seriesState, dispatch } = useContext(MediaContext)
 	const classes = useStyles()
+
+	const handleAddMedia = (selectedMedia, mediaFlag) => {
+		if (mediaFlag === 'movie') {
+			const movieIDs = moviesState.movies.map(movie => movie.tmdbID)
+
+			if (movieIDs.includes(selectedMedia.tmdbID)) {
+				// TODO: add notification or similar to the application and remove console.log()
+				console.log('Movie already exists in own library!')
+				return
+			}
+
+			dispatch({
+				type: 'ADD_OWN_MOVIE',
+				movie: selectedMedia
+			})
+		} else if (mediaFlag === 'series') {
+			const seriesIDs = seriesState.series.map(series => series.tmdbID)
+
+			if (seriesIDs.includes(selectedMedia.tmdbID)) {
+				// TODO: add notification or similar to the application and remove console.log()
+				console.log('Series already exists in own library!')
+				return
+			}
+
+			dispatch({
+				type: 'ADD_OWN_SERIES',
+				movie: selectedMedia
+			})
+		}
+	}
+
+	const handleRemoveMedia = movie => {
+		// TODO: check if movie exists
+		dispatch({
+			type: 'REMOVE_OWN_MOVIE',
+			id: movie.tmdbID
+		})
+	}
 
 	return (
 		<Card className={classes.card}>
@@ -56,7 +95,7 @@ const MediaCard = ({ media }) => {
 			</CardActionArea>
 			<CardActions disableSpacing>
 				<Fab
-					onClick={() => handleAddMovie(media)}
+					onClick={() => handleAddMedia(media, flag)}
 					color="primary"
 					size="medium"
 					aria-label="Add to movie library"
@@ -64,7 +103,7 @@ const MediaCard = ({ media }) => {
 					<Add />
 				</Fab>
 				<Fab
-					onClick={() => handleRemoveMovie(media)}
+					onClick={() => handleRemoveMedia(media, flag)}
 					color="secondary"
 					size="medium"
 					aria-label="Remove from movie library"
@@ -77,7 +116,8 @@ const MediaCard = ({ media }) => {
 }
 
 MediaCard.propTypes = {
-	media: PropTypes.object.isRequired
+	media: PropTypes.object.isRequired,
+	flag: PropTypes.string.isRequired
 }
 
 export default MediaCard

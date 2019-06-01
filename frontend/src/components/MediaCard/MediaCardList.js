@@ -23,7 +23,11 @@ const MediaCardList = ({ classes, movies, ownMovies, ownSeries }) => {
 								className={classes.root}
 								key={movie.tmdbID}
 							>
-								<MediaCard key={movie.tmdbID} media={movie} />
+								<MediaCard
+									key={movie.tmdbID}
+									media={movie}
+									flag="movie"
+								/>
 							</Grid>
 						))}
 					</Grid>
@@ -40,7 +44,11 @@ const MediaCardList = ({ classes, movies, ownMovies, ownSeries }) => {
 								className={classes.root}
 								key={movie.tmdbID}
 							>
-								<MediaCard key={movie.tmdbID} media={movie} />
+								<MediaCard
+									key={movie.tmdbID}
+									media={movie}
+									flag="movie"
+								/>
 							</Grid>
 						))}
 					</Grid>
@@ -53,7 +61,11 @@ const MediaCardList = ({ classes, movies, ownMovies, ownSeries }) => {
 				<Grid container spacing={3}>
 					{ownMovies.map(movie => (
 						<Grid item className={classes.root} key={movie.tmdbID}>
-							<MediaCard key={movie.tmdbID} media={movie} />
+							<MediaCard
+								key={movie.tmdbID}
+								media={movie}
+								flag="movie"
+							/>
 						</Grid>
 					))}
 				</Grid>
@@ -66,7 +78,11 @@ const MediaCardList = ({ classes, movies, ownMovies, ownSeries }) => {
 				<Grid container spacing={3}>
 					{ownSeries.map(series => (
 						<Grid item className={classes.root} key={series.tmdbID}>
-							<MediaCard key={series.tmdbID} media={series} />
+							<MediaCard
+								key={series.tmdbID}
+								media={series}
+								flag="series"
+							/>
 						</Grid>
 					))}
 				</Grid>
