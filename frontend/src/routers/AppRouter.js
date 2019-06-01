@@ -13,6 +13,7 @@ import SearchPage from '../components/Search/SearchPage'
 import MoviesDashboard from '../components/MoviesDashboard'
 import SeriesDashboard from '../components/SeriesDashboard'
 import moviesDatabase from '../database/moviesDatabase'
+import seriesDatabase from '../database/seriesDatabase'
 
 // MUI theme
 const theme = lightTheme()
@@ -32,7 +33,7 @@ const initialMoviesState = {
 
 const initialSeriesState = {
 	loading: true,
-	series: [],
+	series: seriesDatabase(),
 	errorMessage: null
 }
 

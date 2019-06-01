@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
 // TODO: implementation, when user clicks on MediaCard
 // const GET_MOVIE_DETAILS = getMovieDetails
 
-const MediaCard = ({ movie }) => {
+const MediaCard = ({ media }) => {
 	const { handleAddMovie, handleRemoveMovie } = useContext(OwnMoviesContext)
 	const classes = useStyles()
 
@@ -47,16 +47,16 @@ const MediaCard = ({ movie }) => {
 				<CardMedia
 					className={classes.media}
 					image={
-						movie.poster !== 'https://image.tmdb.org/t/p/w342/null'
-							? movie.poster
+						media.poster !== 'https://image.tmdb.org/t/p/w342/null'
+							? media.poster
 							: defaultMoviePoster
 					}
-					title={movie.title}
+					title={media.title}
 				/>
 			</CardActionArea>
 			<CardActions disableSpacing>
 				<Fab
-					onClick={() => handleAddMovie(movie)}
+					onClick={() => handleAddMovie(media)}
 					color="primary"
 					size="medium"
 					aria-label="Add to movie library"
@@ -64,7 +64,7 @@ const MediaCard = ({ movie }) => {
 					<Add />
 				</Fab>
 				<Fab
-					onClick={() => handleRemoveMovie(movie)}
+					onClick={() => handleRemoveMovie(media)}
 					color="secondary"
 					size="medium"
 					aria-label="Remove from movie library"
@@ -77,7 +77,7 @@ const MediaCard = ({ movie }) => {
 }
 
 MediaCard.propTypes = {
-	movie: PropTypes.object.isRequired
+	media: PropTypes.object.isRequired
 }
 
 export default MediaCard

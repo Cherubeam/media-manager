@@ -11,7 +11,7 @@ const styles = theme => ({
 	}
 })
 
-const MediaCardList = ({ classes, movies, ownMovies }) => {
+const MediaCardList = ({ classes, movies, ownMovies, ownSeries }) => {
 	if (movies) {
 		if (movies.data.movieSearch) {
 			return (
@@ -23,7 +23,7 @@ const MediaCardList = ({ classes, movies, ownMovies }) => {
 								className={classes.root}
 								key={movie.tmdbID}
 							>
-								<MediaCard key={movie.tmdbID} movie={movie} />
+								<MediaCard key={movie.tmdbID} media={movie} />
 							</Grid>
 						))}
 					</Grid>
@@ -40,7 +40,7 @@ const MediaCardList = ({ classes, movies, ownMovies }) => {
 								className={classes.root}
 								key={movie.tmdbID}
 							>
-								<MediaCard key={movie.tmdbID} movie={movie} />
+								<MediaCard key={movie.tmdbID} media={movie} />
 							</Grid>
 						))}
 					</Grid>
@@ -53,7 +53,20 @@ const MediaCardList = ({ classes, movies, ownMovies }) => {
 				<Grid container spacing={3}>
 					{ownMovies.map(movie => (
 						<Grid item className={classes.root} key={movie.tmdbID}>
-							<MediaCard key={movie.tmdbID} movie={movie} />
+							<MediaCard key={movie.tmdbID} media={movie} />
+						</Grid>
+					))}
+				</Grid>
+			</div>
+		)
+	} else if (ownSeries) {
+		console.log('SERIEEEEES')
+		return (
+			<div>
+				<Grid container spacing={3}>
+					{ownSeries.map(series => (
+						<Grid item className={classes.root} key={series.tmdbID}>
+							<MediaCard key={series.tmdbID} media={series} />
 						</Grid>
 					))}
 				</Grid>

@@ -17,7 +17,9 @@ const GET_WEEKLY_TRENDING_MOVIES = getWeeklyTrendingMovies
 const GET_MOVIES_BY_NAME = getMoviesByName
 
 export default () => {
-	const { searchState, moviesState, dispatch } = useContext(MediaContext)
+	const { searchState, moviesState, seriesState, dispatch } = useContext(
+		MediaContext
+	)
 
 	useEffect(() => {
 		dispatch({
@@ -44,6 +46,7 @@ export default () => {
 
 	useEffect(() => {
 		localStorage.setItem('movies', JSON.stringify(moviesState.movies))
+		localStorage.setItem('series', JSON.stringify(seriesState.series))
 	}, [moviesState])
 
 	const searchMovie = searchValue => {
