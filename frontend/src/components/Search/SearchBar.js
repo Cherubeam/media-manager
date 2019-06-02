@@ -1,18 +1,24 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
-import Input from '@material-ui/core/Input'
+import TextField from '@material-ui/core/TextField'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import { Search } from '@material-ui/icons'
 
 const useStyles = makeStyles(theme => ({
 	container: {
 		display: 'flex',
 		flexWrap: 'wrap'
 	},
-	input: {
-		margin: theme.spacing(1)
+	textField: {
+		marginLeft: theme.spacing(1),
+		marginRight: theme.spacing(1),
+		marginBottom: theme.spacing(2),
+		width: 600
 	}
 }))
 
-export default props => {
+const SearchBar = ({ searchMovie }) => {
 	const classes = useStyles()
 	const [searchValue, setSearchValue] = useState('')
 
@@ -26,25 +32,35 @@ export default props => {
 
 	const submitSearchInput = e => {
 		e.preventDefault()
-		props.searchMovie(searchValue)
+		searchMovie(searchValue)
 		resetInputField()
 	}
 
 	return (
-		<form>
-			<Input
-				className={classes.input}
-				type="text"
-				placeholder="Search movie"
+		<form classes={classes.container} onSubmit={submitSearchInput}>
+			<TextField
+				className={classes.textfield}
+				type="search"
+				label="Search"
+				helperText="Search for Movies or Series"
 				autoFocus
-				fullWidth
-				inputProps={{
-					'aria-label': 'Search movie'
+				InputProps={{
+					startAdornment: (
+						<InputAdornment position="start">
+							<Search />
+						</InputAdornment>
+					),
+					'aria-label': 'Search'
 				}}
 				value={searchValue}
 				onChange={handleSearchInputChanges}
 			/>
-			<input onClick={submitSearchInput} type="submit" value="SEARCH" />
 		</form>
 	)
 }
+
+SearchBar.propTypes = {
+	searchMovie: PropTypes.func.isRequired
+}
+
+export default SearchBar
