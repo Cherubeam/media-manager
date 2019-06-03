@@ -1,9 +1,25 @@
 type Query {
+	multiSearch(query: String!): [MultiSearch!]!
 	movieSearch(query: String!): [MovieSearch!]!
 	movieDetails(id: ID!): MovieDetails!
 	movieCredits(id: ID!): MovieCredits!
 	movieTrendingWeekly: [MovieTrendingWeekly!]!
 	seriesTrendingWeekly: [SeriesTrendingWeekly!]!
+}
+
+type MultiSearch {
+	tmdbID: ID!
+	originalTitle: String
+	germanTitle: String
+	originalName: String
+	germanName: String
+	releaseDate: String
+	firstAirDate: String
+	description: String!
+	tmdbVoteAverage: Float!
+	tmdbVoteCount: Int!
+	poster: String!
+	mediaType: String!
 }
 
 type MovieSearch {
