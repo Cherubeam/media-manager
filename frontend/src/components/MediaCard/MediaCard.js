@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import {
@@ -12,6 +12,7 @@ import { Add, Remove } from '@material-ui/icons'
 
 import MediaContext from '../../context/MediaContext'
 import DefaultImage from '../../../public/images/movie-default.png'
+import WarningSnackbar from '../Notifications/WarningSnackbar'
 
 const defaultMoviePoster = DefaultImage
 
@@ -23,30 +24,32 @@ const useStyles = makeStyles(theme => ({
 		height: 513,
 		width: 342
 	}
-	// fabButton: {
-	// 	position: 'relative',
-	// 	zIndex: 1,
-	// 	top: -70,
-	// 	left: -110,
-	// 	right: 0,
-	// 	margin: '0 auto'
-	// }
 }))
 
 // TODO: implementation, when user clicks on MediaCard
 // const GET_MOVIE_DETAILS = getMovieDetails
 
 const MediaCard = ({ media, mediaType }) => {
-	const { moviesState, seriesState, dispatch } = useContext(MediaContext)
 	const classes = useStyles()
+	const { moviesState, seriesState, dispatch } = useContext(MediaContext)
+	const [snackbarState, setSnackbarState] = useState({
+		snackbarOpen: false
+	})
+
+	const handleOpenSnackbar = () => {
+		setSnackbarState({ snackbarOpen: true })
+	}
+
+	const handleCloseSnackbar = () => {
+		setSnackbarState({ snackbarOpen: false })
+	}
 
 	const handleAddMedia = (selectedMedia, type) => {
 		if (type === 'movie') {
 			const movieIDs = moviesState.movies.map(movie => movie.tmdbID)
 
 			if (movieIDs.includes(selectedMedia.tmdbID)) {
-				// TODO: add notification or similar to the application and remove console.log()
-				console.log('Movie already exists in own library!')
+				handleOpenSnackbar()
 				return
 			}
 
@@ -58,8 +61,7 @@ const MediaCard = ({ media, mediaType }) => {
 			const seriesIDs = seriesState.series.map(series => series.tmdbID)
 
 			if (seriesIDs.includes(selectedMedia.tmdbID)) {
-				// TODO: add notification or similar to the application and remove console.log()
-				console.log('Series already exists in own library!')
+				handleOpenSnackbar()
 				return
 			}
 
@@ -86,38 +88,49 @@ const MediaCard = ({ media, mediaType }) => {
 		}
 	}
 
+	const { snackbarOpen } = snackbarState
+
 	return (
-		<Card className={classes.card}>
-			<CardActionArea>
-				<CardMedia
-					className={classes.media}
-					image={
-						media.poster !== 'https://image.tmdb.org/t/p/w342/null'
-							? media.poster
-							: defaultMoviePoster
-					}
-					title={media.title}
+		<div>
+			{snackbarOpen && (
+				<WarningSnackbar
+					snackbarOpen={snackbarOpen}
+					handleCloseSnackbar={handleCloseSnackbar}
 				/>
-			</CardActionArea>
-			<CardActions disableSpacing>
-				<Fab
-					onClick={() => handleAddMedia(media, mediaType)}
-					color="primary"
-					size="medium"
-					aria-label="Add to movie library"
-				>
-					<Add />
-				</Fab>
-				<Fab
-					onClick={() => handleRemoveMedia(media, mediaType)}
-					color="secondary"
-					size="medium"
-					aria-label="Remove from movie library"
-				>
-					<Remove />
-				</Fab>
-			</CardActions>
-		</Card>
+			)}
+			<Card className={classes.card}>
+				<CardActionArea>
+					<CardMedia
+						className={classes.media}
+						image={
+							media.poster !==
+							'https://image.tmdb.org/t/p/w342/null'
+								? media.poster
+								: defaultMoviePoster
+						}
+						title={media.title}
+					/>
+				</CardActionArea>
+				<CardActions disableSpacing>
+					<Fab
+						onClick={() => handleAddMedia(media, mediaType)}
+						color="primary"
+						size="medium"
+						aria-label="Add to movie library"
+					>
+						<Add />
+					</Fab>
+					<Fab
+						onClick={() => handleRemoveMedia(media, mediaType)}
+						color="secondary"
+						size="medium"
+						aria-label="Remove from movie library"
+					>
+						<Remove />
+					</Fab>
+				</CardActions>
+			</Card>
+		</div>
 	)
 }
 
