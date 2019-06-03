@@ -37,6 +37,9 @@
 			{
 				"forbid": "object"
 			}
-		]
+		],
+		"react/jsx-wrap-multilines": {
+			"props": "ignore"
+		}
 	}
 }
