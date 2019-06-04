@@ -34,11 +34,11 @@ const MediaCardList = ({ classes, movies, ownMovies, ownSeries }) => {
 				</div>
 			)
 		}
-		if (movies.data.movieTrendingWeekly) {
+		if (movies.data.allTrendingWeekly) {
 			return (
 				<div>
 					<Grid container spacing={3}>
-						{movies.data.movieTrendingWeekly.map(movie => (
+						{movies.data.allTrendingWeekly.map(movie => (
 							<Grid
 								item
 								className={classes.root}

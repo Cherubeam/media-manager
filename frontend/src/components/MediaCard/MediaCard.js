@@ -94,6 +94,9 @@ const MediaCard = ({ media, mediaType }) => {
 		<div>
 			{snackbarOpen && (
 				<WarningSnackbar
+					mediaTitle={
+						media.germanTitle ? media.germanTitle : media.germanName
+					}
 					snackbarOpen={snackbarOpen}
 					handleCloseSnackbar={handleCloseSnackbar}
 				/>
@@ -108,7 +111,11 @@ const MediaCard = ({ media, mediaType }) => {
 								? media.poster
 								: defaultMoviePoster
 						}
-						title={media.title}
+						title={
+							media.germanTitle
+								? media.germanTitle
+								: media.germanName
+						}
 					/>
 				</CardActionArea>
 				<CardActions disableSpacing>

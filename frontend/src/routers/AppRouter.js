@@ -7,6 +7,7 @@ import lightTheme from '../themes/lightTheme'
 import searchReducer from '../reducers/search'
 import moviesReducer from '../reducers/movies'
 import seriesReducer from '../reducers/series'
+import filtersReducer from '../reducers/filters'
 import MediaContext from '../context/MediaContext'
 import Header from '../components/Layouts/Header'
 import SearchPage from '../components/Search/SearchPage'
@@ -57,14 +58,21 @@ const AppRouter = () => {
 	const [state, dispatch] = useCombinedReducer({
 		searchState: useReducer(searchReducer, initialSearchState),
 		moviesState: useReducer(moviesReducer, initialMoviesState),
-		seriesState: useReducer(seriesReducer, initialSeriesState)
+		seriesState: useReducer(seriesReducer, initialSeriesState),
+		filtersState: useReducer(filtersReducer, null)
 	})
-	const { searchState, moviesState, seriesState } = state
+	const { searchState, moviesState, seriesState, filtersState } = state
 
 	return (
 		<ThemeProvider theme={theme}>
 			<MediaContext.Provider
-				value={{ searchState, moviesState, seriesState, dispatch }}
+				value={{
+					searchState,
+					moviesState,
+					seriesState,
+					filtersState,
+					dispatch
+				}}
 			>
 				<BrowserRouter>
 					<div>

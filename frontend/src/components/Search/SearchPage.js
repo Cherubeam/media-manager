@@ -3,6 +3,7 @@ import ApolloBoost from 'apollo-boost'
 
 import MediaContext from '../../context/MediaContext'
 import getWeeklyTrendingMovies from '../../queries/getWeeklyTrendingMovies'
+import getWeeklyTrendingAll from '../../queries/getWeeklyTrendingAll'
 import getMoviesByName from '../../queries/getMoviesByName'
 import SearchBar from './SearchBar'
 import MediaCardList from '../MediaCard/MediaCardList'
@@ -13,13 +14,18 @@ const client = new ApolloBoost({
 })
 
 // Load in GraphQL queries
-const GET_WEEKLY_TRENDING_MOVIES = getWeeklyTrendingMovies
+// const GET_WEEKLY_TRENDING_MOVIES = getWeeklyTrendingMovies
+const GET_WEEKLY_TRENDING_ALL = getWeeklyTrendingAll
 const GET_MOVIES_BY_NAME = getMoviesByName
 
 export default () => {
-	const { searchState, moviesState, seriesState, dispatch } = useContext(
-		MediaContext
-	)
+	const {
+		searchState,
+		moviesState,
+		seriesState,
+		filtersState,
+		dispatch
+	} = useContext(MediaContext)
 
 	useEffect(() => {
 		dispatch({
@@ -28,7 +34,7 @@ export default () => {
 
 		client
 			.query({
-				query: GET_WEEKLY_TRENDING_MOVIES
+				query: GET_WEEKLY_TRENDING_ALL
 			})
 			.then(result => {
 				dispatch({
@@ -75,6 +81,8 @@ export default () => {
 				})
 			})
 	}
+
+	const handleClickMoviesFilter = () => {}
 
 	const { loading, movies, errorMessage } = searchState
 

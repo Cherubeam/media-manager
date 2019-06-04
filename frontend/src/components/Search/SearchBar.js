@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Grid, TextField } from '@material-ui/core'
 import { Search } from '@material-ui/icons'
 
+import SearchFilter from '../Filter/SearchFilter'
+
 const useStyles = makeStyles(theme => ({
 	container: {
 		display: 'flex',
@@ -60,6 +62,9 @@ const SearchBar = ({ searchMovie }) => {
 						value={searchValue}
 						onChange={handleSearchInputChanges}
 					/>
+				</Grid>
+				<Grid item>
+					<SearchFilter />
 				</Grid>
 			</Grid>
 		</form>

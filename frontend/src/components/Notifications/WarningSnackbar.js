@@ -10,7 +10,10 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: theme.status.danger,
 		width: 600
 	},
-	icon: {
+	iconClose: {
+		fontSize: 20
+	},
+	iconWarning: {
 		fontSize: 20,
 		marginRight: theme.spacing(1)
 	},
@@ -22,8 +25,9 @@ const useStyles = makeStyles(theme => ({
 
 const SlideTransition = props => <Slide {...props} direction="up" />
 
-const WarningSnackbar = ({ snackbarOpen, handleCloseSnackbar }) => {
+const WarningSnackbar = ({ mediaTitle, snackbarOpen, handleCloseSnackbar }) => {
 	const classes = useStyles()
+	const message = `${mediaTitle} is already in your library!`
 
 	return (
 		<Snackbar
@@ -39,8 +43,8 @@ const WarningSnackbar = ({ snackbarOpen, handleCloseSnackbar }) => {
 				className={classes.root}
 				message={
 					<span id="warning-snackbar" className={classes.message}>
-						<Warning className={classes.icon} />
-						Already in library!
+						<Warning className={classes.iconWarning} />
+						{message}
 					</span>
 				}
 				action={[
@@ -50,7 +54,7 @@ const WarningSnackbar = ({ snackbarOpen, handleCloseSnackbar }) => {
 						color="inherit"
 						onClick={handleCloseSnackbar}
 					>
-						<Close className={classes.icon} />
+						<Close className={classes.iconClose} />
 					</IconButton>
 				]}
 			/>
@@ -59,6 +63,7 @@ const WarningSnackbar = ({ snackbarOpen, handleCloseSnackbar }) => {
 }
 
 WarningSnackbar.propTypes = {
+	mediaTitle: PropTypes.string.isRequired,
 	snackbarOpen: PropTypes.bool.isRequired,
 	handleCloseSnackbar: PropTypes.func.isRequired
 }
