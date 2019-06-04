@@ -5,6 +5,7 @@ type Query {
 	movieCredits(id: ID!): MovieCredits!
 	movieTrendingWeekly: [MovieTrendingWeekly!]!
 	seriesTrendingWeekly: [SeriesTrendingWeekly!]!
+	allTrendingWeekly: [MultiSearch!]!
 }
 
 type MultiSearch {

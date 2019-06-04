@@ -77,7 +77,7 @@ const Query = {
 								description: media.overview,
 								tmdbVoteAverage: media.vote_average,
 								tmdbVoteCount: media.vote_count,
-								poster: `https://image.tmdb.org/t/p/w342/${
+								poster: `https://image.tmdb.org/t/p/w342${
 									media.poster_path
 								}`,
 								mediaType: media.media_type
@@ -179,7 +179,7 @@ const Query = {
 								description: movie.overview,
 								tmdbVoteAverage: movie.vote_average,
 								tmdbVoteCount: movie.vote_count,
-								poster: `https://image.tmdb.org/t/p/w342/${
+								poster: `https://image.tmdb.org/t/p/w342${
 									movie.poster_path
 								}`
 							})
@@ -259,7 +259,7 @@ const Query = {
 							runtime: body.runtime,
 							tmdbVoteAverage: body.vote_average,
 							tmdbVoteCount: body.vote_count,
-							poster: `https://image.tmdb.org/t/p/w342/${
+							poster: `https://image.tmdb.org/t/p/w342${
 								body.poster_path
 							}`,
 							videos: body.videos.results,
@@ -409,7 +409,7 @@ const Query = {
 								tmdbVoteAverage: movie.vote_average,
 								tmdbVoteCount: movie.vote_count,
 								popularity: movie.popularity || null,
-								poster: `https://image.tmdb.org/t/p/w342/${
+								poster: `https://image.tmdb.org/t/p/w342${
 									movie.poster_path
 								}`
 							})
@@ -490,10 +490,111 @@ const Query = {
 								tmdbVoteAverage: series.vote_average,
 								tmdbVoteCount: series.vote_count,
 								popularity: series.popularity || null,
-								poster: `https://image.tmdb.org/t/p/w342/${
+								poster: `https://image.tmdb.org/t/p/w342${
 									series.poster_path
 								}`
 							})
+						})
+						resolve(payload)
+					}
+				}
+			)
+		})
+	},
+	allTrendingWeekly(parent, args, ctx, info) {
+		return new Promise((resolve, reject) => {
+			request(
+				{
+					method: 'GET',
+					url: `https://api.themoviedb.org/3/trending/all/week?api_key=${
+						process.env.TMDB_API_KEY
+					}&language=${language}&region=${region}`,
+					json: true
+				},
+				(error, response, body) => {
+					if (error) {
+						reject(
+							new Error(
+								JSON.stringify(
+									{
+										errorCode: error.code,
+										host: error.host,
+										port: error.port,
+										message: `Error: ${
+											error.code
+										} | Host: ${error.host} | Port: ${
+											error.port
+										} -> Please check the API-URL.`
+									},
+									undefined,
+									2
+								)
+							)
+						)
+					} else if (response.statusCode === 401) {
+						reject(
+							new Error(
+								JSON.stringify(
+									{
+										statusCode: response.statusCode,
+										statusMessage:
+											response.body.status_message
+									},
+									undefined,
+									2
+								)
+							)
+						)
+					} else if (response.statusCode === 404) {
+						reject(
+							new Error(
+								JSON.stringify(
+									{
+										statusCode: response.statusCode,
+										statusMessage:
+											response.body.status_message
+									},
+									undefined,
+									2
+								)
+							)
+						)
+					} else if (response.statusCode === 200) {
+						const payload = []
+
+						body.results.forEach(media => {
+							let mediaObject = {
+								tmdbID: media.id,
+								description: media.overview,
+								tmdbVoteAverage: media.vote_average,
+								tmdbVoteCount: media.vote_count,
+								poster: `https://image.tmdb.org/t/p/w342${
+									media.poster_path
+								}`
+							}
+							const objectKeys = Object.keys(media)
+
+							if (
+								objectKeys.includes('title' && 'original_title')
+							) {
+								mediaObject.originalTitle = media.original_title
+								mediaObject.germanTitle = media.title
+								mediaObject.mediaType = 'movie'
+							} else if (
+								objectKeys.includes('name' && 'original_name')
+							) {
+								mediaObject.originalName = media.original_name
+								mediaObject.germanName = media.name
+								mediaObject.mediaType = 'tv'
+							}
+
+							if (objectKeys.includes('release_date')) {
+								mediaObject.releaseDate = media.release_date
+							} else if (objectKeys.includes('first_air_date')) {
+								mediaObject.firstAirDate = media.first_air_date
+							}
+
+							payload.push(mediaObject)
 						})
 						resolve(payload)
 					}
