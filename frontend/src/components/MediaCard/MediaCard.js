@@ -45,6 +45,7 @@ const MediaCard = ({ media, mediaType }) => {
 	}
 
 	const handleAddMedia = (selectedMedia, type) => {
+		// TODO: add mediaType to all GraphQL-Queries
 		if (type === 'movie') {
 			const movieIDs = moviesState.movies.map(movie => movie.tmdbID)
 
@@ -57,8 +58,8 @@ const MediaCard = ({ media, mediaType }) => {
 				type: 'ADD_OWN_MOVIE',
 				movie: selectedMedia
 			})
-		} else if (type === 'series') {
-			const seriesIDs = seriesState.series.map(series => series.tmdbID)
+		} else if (type === 'tv') {
+			const seriesIDs = seriesState.series.map(show => show.tmdbID)
 
 			if (seriesIDs.includes(selectedMedia.tmdbID)) {
 				handleOpenSnackbar()
@@ -67,7 +68,7 @@ const MediaCard = ({ media, mediaType }) => {
 
 			dispatch({
 				type: 'ADD_OWN_SERIES',
-				movie: selectedMedia
+				series: selectedMedia
 			})
 		}
 	}
@@ -79,7 +80,7 @@ const MediaCard = ({ media, mediaType }) => {
 				type: 'REMOVE_OWN_MOVIE',
 				id: selectedMedia.tmdbID
 			})
-		} else if (type === 'series') {
+		} else if (type === 'tv') {
 			// TODO: check if series exists
 			dispatch({
 				type: 'REMOVE_OWN_SERIES',
@@ -120,7 +121,7 @@ const MediaCard = ({ media, mediaType }) => {
 				</CardActionArea>
 				<CardActions disableSpacing>
 					<Fab
-						onClick={() => handleAddMedia(media, mediaType)}
+						onClick={() => handleAddMedia(media, media.mediaType)}
 						color="primary"
 						size="medium"
 						aria-label="Add to movie library"
@@ -128,7 +129,9 @@ const MediaCard = ({ media, mediaType }) => {
 						<Add />
 					</Fab>
 					<Fab
-						onClick={() => handleRemoveMedia(media, mediaType)}
+						onClick={() =>
+							handleRemoveMedia(media, media.mediaType)
+						}
 						color="secondary"
 						size="medium"
 						aria-label="Remove from movie library"

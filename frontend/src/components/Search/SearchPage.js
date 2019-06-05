@@ -29,7 +29,7 @@ export default () => {
 
 	useEffect(() => {
 		dispatch({
-			type: 'SEARCH_MOVIES_REQUEST'
+			type: 'SEARCH_MEDIA_REQUEST'
 		})
 
 		client
@@ -38,13 +38,13 @@ export default () => {
 			})
 			.then(result => {
 				dispatch({
-					type: 'SEARCH_MOVIES_SUCCESS',
+					type: 'SEARCH_MEDIA_SUCCESS',
 					payload: result
 				})
 			})
 			.catch(error => {
 				dispatch({
-					type: 'SEARCH_MOVIES_FAILURE',
+					type: 'SEARCH_MEDIA_FAILURE',
 					error
 				})
 			})
@@ -82,6 +82,8 @@ export default () => {
 			})
 	}
 
+	// TODO: seachSeries
+
 	const handleClickMoviesFilter = () => {}
 
 	const { loading, movies, errorMessage } = searchState
@@ -96,6 +98,7 @@ export default () => {
 				) : errorMessage ? (
 					<div className="errorMessage">{errorMessage}</div>
 				) : (
+					// TODO: media={media, movies, series}? // media={media}, movies={movies}, seriies={series}
 					<MediaCardList movies={movies} />
 				)}
 			</div>
