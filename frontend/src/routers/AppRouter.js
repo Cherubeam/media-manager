@@ -5,6 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import lightTheme from '../themes/lightTheme'
 
 import searchReducer from '../reducers/search'
+import mediaReducer from '../reducers/media'
 import moviesReducer from '../reducers/movies'
 import seriesReducer from '../reducers/series'
 import filtersReducer from '../reducers/filters'
@@ -22,7 +23,15 @@ const theme = lightTheme()
 // Initial states
 const initialSearchState = {
 	loading: true,
+	media: [],
 	movies: [],
+	series: [],
+	errorMessage: null
+}
+
+const initialMediaState = {
+	loading: true,
+	media: [],
 	errorMessage: null
 }
 
@@ -36,6 +45,10 @@ const initialSeriesState = {
 	loading: true,
 	series: seriesDatabase(),
 	errorMessage: null
+}
+
+const initialFiltersState = {
+	mediaType: 'movie'
 }
 
 const useCombinedReducer = useReducers => {
@@ -57,17 +70,25 @@ const useCombinedReducer = useReducers => {
 const AppRouter = () => {
 	const [state, dispatch] = useCombinedReducer({
 		searchState: useReducer(searchReducer, initialSearchState),
+		mediaState: useReducer(mediaReducer, initialMediaState),
 		moviesState: useReducer(moviesReducer, initialMoviesState),
 		seriesState: useReducer(seriesReducer, initialSeriesState),
-		filtersState: useReducer(filtersReducer, null)
+		filtersState: useReducer(filtersReducer, initialFiltersState)
 	})
-	const { searchState, moviesState, seriesState, filtersState } = state
+	const {
+		searchState,
+		mediaState,
+		moviesState,
+		seriesState,
+		filtersState
+	} = state
 
 	return (
 		<ThemeProvider theme={theme}>
 			<MediaContext.Provider
 				value={{
 					searchState,
+					mediaState,
 					moviesState,
 					seriesState,
 					filtersState,

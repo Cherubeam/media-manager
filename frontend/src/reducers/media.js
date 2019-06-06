@@ -4,7 +4,7 @@ const mediaReducer = (state, action) => {
 			return {
 				...state,
 				loading: false,
-				movies: action.media
+				media: action.media
 			}
 		default:
 			return state

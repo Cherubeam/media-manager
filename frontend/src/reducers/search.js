@@ -10,7 +10,7 @@ const searchReducer = (state, action) => {
 			return {
 				...state,
 				loading: false,
-				movies: action.payload
+				media: action.payload
 			}
 		case 'SEARCH_MEDIA_FAILURE':
 			return {
@@ -46,7 +46,7 @@ const searchReducer = (state, action) => {
 			return {
 				...state,
 				loading: false,
-				movies: action.payload
+				series: action.payload
 			}
 		case 'SEARCH_SERIES_FAILURE':
 			return {

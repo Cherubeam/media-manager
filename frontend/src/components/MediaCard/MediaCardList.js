@@ -11,7 +11,38 @@ const styles = theme => ({
 	}
 })
 
-const MediaCardList = ({ classes, movies, ownMovies, ownSeries }) => {
+const MediaCardList = ({
+	classes,
+	media,
+	movies,
+	series,
+	ownMovies,
+	ownSeries
+}) => {
+	if (media) {
+		console.log('Yeah, some media!!!')
+		if (media.data.allTrendingWeekly) {
+			return (
+				<div>
+					<Grid container spacing={3}>
+						{media.data.allTrendingWeekly.map(medium => (
+							<Grid
+								item
+								className={classes.root}
+								key={medium.tmdbID}
+							>
+								<MediaCard
+									key={medium.tmdbID}
+									media={medium} // TODO: refactor 'media' to 'medium' everywhere in this file
+									mediaType={medium.mediaType}
+								/>
+							</Grid>
+						))}
+					</Grid>
+				</div>
+			)
+		}
+	}
 	if (movies) {
 		if (movies.data.movieSearch) {
 			return (
@@ -26,7 +57,7 @@ const MediaCardList = ({ classes, movies, ownMovies, ownSeries }) => {
 								<MediaCard
 									key={movie.tmdbID}
 									media={movie}
-									mediaType="movie"
+									mediaType="movie" // TODO: remove hard code
 								/>
 							</Grid>
 						))}
@@ -47,7 +78,7 @@ const MediaCardList = ({ classes, movies, ownMovies, ownSeries }) => {
 								<MediaCard
 									key={movie.tmdbID}
 									media={movie}
-									mediaType="movie"
+									mediaType="movie" // TODO: remove hard code
 								/>
 							</Grid>
 						))}
@@ -64,7 +95,7 @@ const MediaCardList = ({ classes, movies, ownMovies, ownSeries }) => {
 							<MediaCard
 								key={movie.tmdbID}
 								media={movie}
-								mediaType="movie"
+								mediaType="movie" // TODO: remove hard code
 							/>
 						</Grid>
 					))}
@@ -72,7 +103,6 @@ const MediaCardList = ({ classes, movies, ownMovies, ownSeries }) => {
 			</div>
 		)
 	} else if (ownSeries) {
-		console.log('SERIEEEEES')
 		return (
 			<div>
 				<Grid container spacing={3}>
@@ -81,7 +111,7 @@ const MediaCardList = ({ classes, movies, ownMovies, ownSeries }) => {
 							<MediaCard
 								key={series.tmdbID}
 								media={series}
-								mediaType="series"
+								mediaType="series" // TODO: remove hard code
 							/>
 						</Grid>
 					))}

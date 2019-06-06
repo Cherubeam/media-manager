@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 	// }
 }))
 
-const SearchBar = ({ searchMovie }) => {
+const SearchBar = ({ searchMovie, handleClickMoviesFilter }) => {
 	const classes = useStyles()
 	const [searchValue, setSearchValue] = useState('')
 
@@ -64,7 +64,9 @@ const SearchBar = ({ searchMovie }) => {
 					/>
 				</Grid>
 				<Grid item>
-					<SearchFilter />
+					<SearchFilter
+						handleClickMoviesFilter={handleClickMoviesFilter}
+					/>
 				</Grid>
 			</Grid>
 		</form>
@@ -72,7 +74,8 @@ const SearchBar = ({ searchMovie }) => {
 }
 
 SearchBar.propTypes = {
-	searchMovie: PropTypes.func.isRequired
+	searchMovie: PropTypes.func.isRequired,
+	handleClickMoviesFilter: PropTypes.func.isRequired
 }
 
 export default SearchBar

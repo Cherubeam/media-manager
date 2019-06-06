@@ -1,12 +1,13 @@
-import React, { Fragment, useContext, useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import ApolloBoost from 'apollo-boost'
 
 import MediaContext from '../../context/MediaContext'
-import getWeeklyTrendingMovies from '../../queries/getWeeklyTrendingMovies'
+// import getWeeklyTrendingMovies from '../../queries/getWeeklyTrendingMovies'
 import getWeeklyTrendingAll from '../../queries/getWeeklyTrendingAll'
 import getMoviesByName from '../../queries/getMoviesByName'
 import SearchBar from './SearchBar'
 import MediaCardList from '../MediaCard/MediaCardList'
+import selectMedia from '../../selectors/media'
 
 // Create Apollo client
 const client = new ApolloBoost({
@@ -21,6 +22,7 @@ const GET_MOVIES_BY_NAME = getMoviesByName
 export default () => {
 	const {
 		searchState,
+		mediaState,
 		moviesState,
 		seriesState,
 		filtersState,
@@ -84,24 +86,64 @@ export default () => {
 
 	// TODO: seachSeries
 
-	const handleClickMoviesFilter = () => {}
+	const handleClickMoviesFilter = (state, filter) => {
+		console.log('STATE IN HANDLER:', state)
+		console.log('FILTER IN HANDLER', filter)
 
-	const { loading, movies, errorMessage } = searchState
+		dispatch({
+			type: filter === 'movie' ? 'SET_MOVIES_FILTER' : 'SET_SERIES_FILTER'
+		})
+
+		const media = selectMedia(state, filter)
+		console.log('MEDIA: ', media)
+
+		dispatch({
+			type: 'POPULATE_MEDIA',
+			media
+		})
+	}
+
+	// let loading
+	// let media
+	// let movies
+	// let series
+	// let errorMessage
+
+	// if (
+	// 	searchState.media.length > 0 ||
+	// 	searchState.movies.length > 0 ||
+	// 	searchState.series.length > 0
+	// ) {
+	// 	;({ loading, media, movies, series, errorMessage } = searchState)
+	// } else if (mediaState.media.length > 0) {
+	// 	;({ loading, media, errorMessage } = mediaState)
+	// }
+
+	// console.log(searchState)
+	// console.log(mediaState)
+
+	const { loading, media, movies, series, errorMessage } = searchState
 
 	return (
-		<Fragment>
+		<div>
 			<h1>Trending Movies</h1>
-			<SearchBar searchMovie={searchMovie} />
+			<SearchBar
+				searchMovie={searchMovie}
+				handleClickMoviesFilter={handleClickMoviesFilter}
+			/>
 			<div className="movies">
 				{loading && !errorMessage ? (
 					<span>loading...</span>
 				) : errorMessage ? (
 					<div className="errorMessage">{errorMessage}</div>
 				) : (
-					// TODO: media={media, movies, series}? // media={media}, movies={movies}, seriies={series}
-					<MediaCardList movies={movies} />
+					<MediaCardList
+						media={media}
+						movies={movies}
+						series={series}
+					/>
 				)}
 			</div>
-		</Fragment>
+		</div>
 	)
 }
