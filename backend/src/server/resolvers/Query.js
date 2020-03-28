@@ -15,9 +15,7 @@ const Query = {
 			request(
 				{
 					method: 'GET',
-					url: `https://api.themoviedb.org/3/search/multi?api_key=${
-						process.env.TMDB_API_KEY
-					}&query=${query}&include_adult=true&language=${language}&region=${region}`,
+					url: `https://api.themoviedb.org/3/search/multi?api_key=${process.env.TMDB_API_KEY}&query=${query}&include_adult=true&language=${language}&region=${region}`,
 					json: true
 				},
 				(error, response, body) => {
@@ -29,11 +27,7 @@ const Query = {
 										errorCode: error.code,
 										host: error.host,
 										port: error.port,
-										message: `Error: ${
-											error.code
-										} | Host: ${error.host} | Port: ${
-											error.port
-										} -> Please check the API-URL.`
+										message: `Error: ${error.code} | Host: ${error.host} | Port: ${error.port} -> Please check the API-URL.`
 									},
 									undefined,
 									2
@@ -77,9 +71,7 @@ const Query = {
 								description: media.overview,
 								tmdbVoteAverage: media.vote_average,
 								tmdbVoteCount: media.vote_count,
-								poster: `https://image.tmdb.org/t/p/w342${
-									media.poster_path
-								}`,
+								poster: `https://image.tmdb.org/t/p/w342${media.poster_path}`,
 								mediaType: media.media_type
 							}
 							const objectKeys = Object.keys(media)
@@ -115,9 +107,7 @@ const Query = {
 			request(
 				{
 					method: 'GET',
-					url: `https://api.themoviedb.org/3/search/movie?api_key=${
-						process.env.TMDB_API_KEY
-					}&query=${query}&language=${language}`,
+					url: `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_API_KEY}&query=${query}&language=${language}`,
 					json: true
 				},
 				(error, response, body) => {
@@ -129,11 +119,7 @@ const Query = {
 										errorCode: error.code,
 										host: error.host,
 										port: error.port,
-										message: `Error: ${
-											error.code
-										} | Host: ${error.host} | Port: ${
-											error.port
-										} -> Please check the API-URL.`
+										message: `Error: ${error.code} | Host: ${error.host} | Port: ${error.port} -> Please check the API-URL.`
 									},
 									undefined,
 									2
@@ -171,18 +157,24 @@ const Query = {
 					} else if (response.statusCode === 200) {
 						const payload = []
 						body.results.forEach(movie => {
-							payload.push({
+							let movieObject = {
 								tmdbID: movie.id,
 								originalTitle: movie.original_title,
 								germanTitle: movie.title,
-								releaseDate: movie.release_date,
 								description: movie.overview,
 								tmdbVoteAverage: movie.vote_average,
 								tmdbVoteCount: movie.vote_count,
-								poster: `https://image.tmdb.org/t/p/w342${
-									movie.poster_path
-								}`
-							})
+								poster: `https://image.tmdb.org/t/p/w342${movie.poster_path}`
+							}
+							const objectKeys = Object.keys(movie)
+
+							if (objectKeys.includes('release_date')) {
+								movieObject.releaseDate = movie.release_date
+							} else {
+								movieObject.releaseDate = ''
+							}
+
+							payload.push(movieObject)
 						})
 						resolve(payload)
 					}
@@ -195,9 +187,7 @@ const Query = {
 			request(
 				{
 					method: 'GET',
-					url: `https://api.themoviedb.org/3/movie/${id}?append_to_response=videos,images,keywords&api_key=${
-						process.env.TMDB_API_KEY
-					}&language=${language}`,
+					url: `https://api.themoviedb.org/3/movie/${id}?append_to_response=videos,images,keywords&api_key=${process.env.TMDB_API_KEY}&language=${language}`,
 					json: true
 				},
 				(error, response, body) => {
@@ -209,11 +199,7 @@ const Query = {
 										errorCode: error.code,
 										host: error.host,
 										port: error.port,
-										message: `Error: ${
-											error.code
-										} | Host: ${error.host} | Port: ${
-											error.port
-										} -> Please check the API-URL.`
+										message: `Error: ${error.code} | Host: ${error.host} | Port: ${error.port} -> Please check the API-URL.`
 									},
 									undefined,
 									2
@@ -259,9 +245,7 @@ const Query = {
 							runtime: body.runtime,
 							tmdbVoteAverage: body.vote_average,
 							tmdbVoteCount: body.vote_count,
-							poster: `https://image.tmdb.org/t/p/w342${
-								body.poster_path
-							}`,
+							poster: `https://image.tmdb.org/t/p/w342${body.poster_path}`,
 							videos: body.videos.results,
 							genres: body.genres,
 							keywords: body.keywords.keywords
@@ -276,9 +260,7 @@ const Query = {
 			request(
 				{
 					method: 'GET',
-					url: `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${
-						process.env.TMDB_API_KEY
-					}&language=${language}`,
+					url: `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${process.env.TMDB_API_KEY}&language=${language}`,
 					json: true
 				},
 				(error, response, body) => {
@@ -290,11 +272,7 @@ const Query = {
 										errorCode: error.code,
 										host: error.host,
 										port: error.port,
-										message: `Error: ${
-											error.code
-										} | Host: ${error.host} | Port: ${
-											error.port
-										} -> Please check the API-URL.`
+										message: `Error: ${error.code} | Host: ${error.host} | Port: ${error.port} -> Please check the API-URL.`
 									},
 									undefined,
 									2
@@ -344,9 +322,7 @@ const Query = {
 			request(
 				{
 					method: 'GET',
-					url: `https://api.themoviedb.org/3/trending/movie/week?api_key=${
-						process.env.TMDB_API_KEY
-					}&language=${language}&region=${region}`,
+					url: `https://api.themoviedb.org/3/trending/movie/week?api_key=${process.env.TMDB_API_KEY}&language=${language}&region=${region}`,
 					json: true
 				},
 				(error, response, body) => {
@@ -358,11 +334,7 @@ const Query = {
 										errorCode: error.code,
 										host: error.host,
 										port: error.port,
-										message: `Error: ${
-											error.code
-										} | Host: ${error.host} | Port: ${
-											error.port
-										} -> Please check the API-URL.`
+										message: `Error: ${error.code} | Host: ${error.host} | Port: ${error.port} -> Please check the API-URL.`
 									},
 									undefined,
 									2
@@ -409,9 +381,7 @@ const Query = {
 								tmdbVoteAverage: movie.vote_average,
 								tmdbVoteCount: movie.vote_count,
 								popularity: movie.popularity || null,
-								poster: `https://image.tmdb.org/t/p/w342${
-									movie.poster_path
-								}`
+								poster: `https://image.tmdb.org/t/p/w342${movie.poster_path}`
 							})
 						})
 						resolve(payload)
@@ -425,9 +395,7 @@ const Query = {
 			request(
 				{
 					method: 'GET',
-					url: `https://api.themoviedb.org/3/trending/tv/week?api_key=${
-						process.env.TMDB_API_KEY
-					}&language=${language}&region=${region}`,
+					url: `https://api.themoviedb.org/3/trending/tv/week?api_key=${process.env.TMDB_API_KEY}&language=${language}&region=${region}`,
 					json: true
 				},
 				(error, response, body) => {
@@ -439,11 +407,7 @@ const Query = {
 										errorCode: error.code,
 										host: error.host,
 										port: error.port,
-										message: `Error: ${
-											error.code
-										} | Host: ${error.host} | Port: ${
-											error.port
-										} -> Please check the API-URL.`
+										message: `Error: ${error.code} | Host: ${error.host} | Port: ${error.port} -> Please check the API-URL.`
 									},
 									undefined,
 									2
@@ -490,9 +454,7 @@ const Query = {
 								tmdbVoteAverage: series.vote_average,
 								tmdbVoteCount: series.vote_count,
 								popularity: series.popularity || null,
-								poster: `https://image.tmdb.org/t/p/w342${
-									series.poster_path
-								}`
+								poster: `https://image.tmdb.org/t/p/w342${series.poster_path}`
 							})
 						})
 						resolve(payload)
@@ -506,9 +468,7 @@ const Query = {
 			request(
 				{
 					method: 'GET',
-					url: `https://api.themoviedb.org/3/trending/all/week?api_key=${
-						process.env.TMDB_API_KEY
-					}&language=${language}&region=${region}`,
+					url: `https://api.themoviedb.org/3/trending/all/week?api_key=${process.env.TMDB_API_KEY}&language=${language}&region=${region}`,
 					json: true
 				},
 				(error, response, body) => {
@@ -520,11 +480,7 @@ const Query = {
 										errorCode: error.code,
 										host: error.host,
 										port: error.port,
-										message: `Error: ${
-											error.code
-										} | Host: ${error.host} | Port: ${
-											error.port
-										} -> Please check the API-URL.`
+										message: `Error: ${error.code} | Host: ${error.host} | Port: ${error.port} -> Please check the API-URL.`
 									},
 									undefined,
 									2
@@ -568,9 +524,7 @@ const Query = {
 								description: media.overview,
 								tmdbVoteAverage: media.vote_average,
 								tmdbVoteCount: media.vote_count,
-								poster: `https://image.tmdb.org/t/p/w342${
-									media.poster_path
-								}`
+								poster: `https://image.tmdb.org/t/p/w342${media.poster_path}`
 							}
 							const objectKeys = Object.keys(media)
 
